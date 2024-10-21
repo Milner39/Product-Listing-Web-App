@@ -1,0 +1,19 @@
+# Misc
+/.vscode
+/TODO.txt
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Installed dependencies
+node_modules
+
+# Build files
+/dist
+
+# Enviromental variables but not the `env.example` file
+.env
+.env.*
+!.env.example
