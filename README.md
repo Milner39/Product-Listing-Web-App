@@ -4,8 +4,7 @@ Configure a `/.env` file using the `/.env.example` file as a guide
 
 Install dependencies with `npm install`
 
-
-start a development server:
+Start a development server:
 
 ```bash
 npm run dev
@@ -14,7 +13,7 @@ npm run dev
 
 ## Testing
 
-run test scripts:
+Run test scripts:
 
 ```bash
 npm run test
@@ -23,7 +22,7 @@ npm run test
 
 ## Building
 
-To create a production version:
+Create a production build:
 
 ```bash
 npm run build
