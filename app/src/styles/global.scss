@@ -1,0 +1,45 @@
+@use "./reset.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+:root {
+    font-family: "Roboto", sans-serif;
+
+    --fw-thin: 100;
+    --fw-light: 300;
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-bold: 700;
+    --fw-black: 900;
+
+    --browser-fs-scale: 1; // When the browser is resized, the font size will be scaled by this factor
+    --element-fs-scale: 1; // Exceptionally large/small elements' font size will be scaled by this factor
+}
+
+
+// Font sizes
+h1 {
+    font-size: calc(2.5rem * var(--browser-fs-scale) * var(--element-fs-scale));
+}
+h2 {
+    font-size: calc(2rem * var(--browser-fs-scale) * var(--element-fs-scale));
+}
+h3 {
+    font-size: calc(1.75rem * var(--browser-fs-scale) * var(--element-fs-scale));
+}
+h4 {
+    font-size: calc(1.5rem * var(--browser-fs-scale) * var(--element-fs-scale));
+}
+h5 {
+    font-size: calc(1.25rem * var(--browser-fs-scale) * var(--element-fs-scale));
+}
+h6 {
+    font-size: calc(1rem * var(--browser-fs-scale) * var(--element-fs-scale));
+}
+p {
+    font-size: calc(1rem * var(--browser-fs-scale) * var(--element-fs-scale));
+}
+small {
+    font-size: calc(0.875rem * var(--browser-fs-scale) * var(--element-fs-scale));
+}
