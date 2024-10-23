@@ -86,8 +86,6 @@ export default defineNuxtConfig({
 	hooks: {
 		// Set up routes
 		"pages:extend" (pages) {
-			console.log(pages)
-
 			// Remove generate routes
 			pages.splice(0, pages.length)
 
@@ -95,8 +93,6 @@ export default defineNuxtConfig({
 			for (const route of routes) {
 				pages.push(route)
 			}
-
-			console.log(pages)
 		}
 	}
 
