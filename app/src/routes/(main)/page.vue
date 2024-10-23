@@ -1,6 +1,6 @@
 <template>
 	<h2>Welcome to the site</h2>
-	<RouterLink to="/about">About</RouterLink>
+	<NuxtLink to="/about">About</NuxtLink>
 </template>
 
 <style scoped lang="scss">

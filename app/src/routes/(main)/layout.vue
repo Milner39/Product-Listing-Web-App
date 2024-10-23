@@ -2,7 +2,7 @@
 	<nav>
 		<h1>Nav</h1>
 	</nav>
-	<RouterView/>
+	<NuxtPage/>
 </template>
 
 <style scoped lang="scss">

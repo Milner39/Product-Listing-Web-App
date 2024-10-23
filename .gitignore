@@ -1,17 +1,13 @@
+# Nuxt outputs
+nuxt.temp
+
+# Node dependencies
+node_modules
+
 # Misc
 /.vscode
 /TODO.txt
-
-# Logs
-logs
-*.log
-npm-debug.log*
-
-# Installed dependencies
-node_modules
-
-# Build files
-/dist
+/ignore
 
 # Enviromental variables but not the `env.example` file
 .env
