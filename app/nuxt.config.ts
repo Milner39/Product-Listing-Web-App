@@ -59,10 +59,10 @@ export default defineNuxtConfig({
 	// Source directories
 	srcDir: fileURLToPath(new URL("./src", appRoot)),
 	dir: {
-		app: "./", // default: app
 		pages: "./routes", // default: pages
 		public: "./public", // default: public
 	},
+	components: { dirs: [{ path: "~/components", global: false }] },
 	// Source directories
 	// Directory configuration
 
