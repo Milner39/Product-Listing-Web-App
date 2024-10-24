@@ -30,6 +30,13 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 
 
+	// Aliases
+	alias: {
+		"~": fileURLToPath(new URL("./src", appRoot)),
+		"~~": fileURLToPath(projectRoot)
+	},
+
+
 	// App configuration
 	app: {
 		head: {
@@ -62,7 +69,10 @@ export default defineNuxtConfig({
 		pages: "./routes", // default: pages
 		public: "./public", // default: public
 	},
-	components: { dirs: [{ path: "~/components", global: false }] },
+	components: { dirs: [
+		{ path: "~/components", global: false },
+		{ path: "~/assets/svgs", global: false }
+	] },
 	// Source directories
 	// Directory configuration
 
