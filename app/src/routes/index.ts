@@ -18,6 +18,10 @@ const routes = [
 			{
 				path: "about",
 				file: "~/routes/(main)/about/page.vue"
+			},
+			{
+				path: "products",
+				file: "~/routes/(main)/page.vue",
 			}
 		]
 	}
