@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 // #region Imports
 
 import Header from "~/components/Header/Header.vue"

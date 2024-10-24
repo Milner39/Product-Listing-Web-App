@@ -1,4 +1,4 @@
-// CSS Reset 
+// General CSS reset 
 /* Resources I used to create this reset:
     - Comeau, J. https://www.joshwcomeau.com/css/custom-css-reset/ (Comeau credited Bell for inspiration)
     - Bell, A. https://piccalil.li/blog/a-more-modern-css-reset/
@@ -46,4 +46,27 @@ p {
 }
 h1, h2, h3, h4, h5, h6 {
     text-wrap: balance; 
+}
+
+
+
+// Specific element resets
+a.style-reset {
+    color: inherit; // Inherit text color
+    text-decoration: none; // Remove default underline
+}
+
+ul.style-reset {
+    list-style: none; // Remove default list styles
+    padding: 0; // Remove default padding
+}
+
+button.style-reset {
+    background: none; // Remove default background
+    border: none; // Remove default border
+    padding: 0; // Remove default padding
+
+    &:hover {
+        cursor: pointer; // Add pointer on hover
+    }
 }

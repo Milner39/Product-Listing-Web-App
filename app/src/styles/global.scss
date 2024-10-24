@@ -43,3 +43,12 @@ p {
 small {
     font-size: calc(0.875rem * var(--browser-fs-scale) * var(--element-fs-scale));
 }
+
+
+// Stop SVGs being huge/tiny when unstyled
+svg {
+    min-width: 1rem;
+    .fill {
+        fill: currentColor;
+    }
+}

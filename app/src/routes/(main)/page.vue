@@ -1,4 +1,4 @@
 <template>
 	<p>Welcome to the site</p>
-	<NuxtLink to="/about">About</NuxtLink>
+	<div style="height: 200dvh;"></div>
 </template>
