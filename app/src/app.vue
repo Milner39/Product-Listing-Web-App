@@ -8,6 +8,5 @@ import "./styles/global.scss"
 </script>
 
 <template>
-	<h1>App</h1>
 	<NuxtPage/>
 </template>

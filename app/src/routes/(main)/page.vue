@@ -1,8 +1,4 @@
 <template>
-	<h2>Welcome to the site</h2>
+	<p>Welcome to the site</p>
 	<NuxtLink to="/about">About</NuxtLink>
 </template>
-
-<style scoped lang="scss">
-
-</style>
