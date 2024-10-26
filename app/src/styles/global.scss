@@ -52,3 +52,46 @@ svg {
         fill: currentColor;
     }
 }
+
+
+// Buttons
+.button--pill {
+    display: block;
+    background-color: black;
+
+    padding: 0.5rem 1rem;
+    border-radius: 1.5em;
+
+    display: grid;
+    align-items: center;
+
+    > * {
+        font-weight: var(--fw-bold);
+        color: white;
+
+        text-wrap: nowrap;
+    }
+}
+
+
+// Utility classes
+.grid-center {
+    display: grid;
+    align-items: center;
+}
+
+.bold {
+    font-weight: var(--fw-bold);
+}
+
+.nowrap {
+    text-wrap: nowrap;
+
+    > * {
+        text-wrap: nowrap;
+    }
+    /*
+        If applied to wrapper: text in wrapper will not wrap
+        If applied to text: text will not wrap and child selector will be ignored
+    */
+}

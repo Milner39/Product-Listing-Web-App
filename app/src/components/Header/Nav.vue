@@ -38,7 +38,12 @@ let navMainShown = ref(false)
             </ul>
         </div>
         <div class="nav__actions__container">
-
+            <NuxtLink to="/" class="nowrap bold grid-center style-reset">
+                <p>List Product</p>
+            </NuxtLink>
+            <NuxtLink to="/" class="button--pill style-reset">
+                <p>Contact</p>
+            </NuxtLink>
         </div>
     </nav>
 </template>
@@ -83,6 +88,13 @@ nav {
             }
         }
     }
+}
+
+.nav__actions__container {
+    display: flex;
+    gap: 1rem;
+
+    margin-left: auto;
 }
 
 </style>
