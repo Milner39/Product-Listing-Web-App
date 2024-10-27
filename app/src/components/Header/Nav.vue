@@ -7,14 +7,30 @@ import CloseSVG from "~/assets/svgs/Close.vue"
 // #endregion Imports
 
 
-let dropdownOpen = ref(false)
-let navMainShown = ref(false)
+// Reactive state
+let dropdownOpen = ref(false) // Whether the dropdown is open
+let navMainCollapsed = ref(false) // Whether `nav` is collapsed
 
 
+// Get a reference to the `nav` element
 const nav = useTemplateRef("nav")
 
+// Define resize subroutine to control `navMainCollapsed`
 const onResize = () => {
-    console.log("Nav resized")
+    if (nav.value) {
+        const navStyles = getComputedStyle(nav.value)
+        const navInternalWidth = 
+            parseFloat(navStyles.width.slice(0, -2)) -
+            parseFloat(navStyles.paddingLeft.slice(0, -2)) -
+            parseFloat(navStyles.paddingRight.slice(0, -2))
+
+        
+        const onlyNavCollapsedElements = nav.value.querySelectorAll(".nav--collapsed")
+        const onlyNavExpandedElements = nav.value.querySelectorAll(".nav--expanded")
+       
+
+        
+    }
 }
 
 
@@ -33,7 +49,7 @@ onBeforeUnmount(() => { if (resizeObserver) resizeObserver.disconnect() })
 
 <template>
     <nav role="navigation" ref="nav">
-        <button class="nav__dropdown-toggle style-reset" type="button" 
+        <button class="nav__dropdown-toggle style-reset nav--collapsed" type="button" 
             :title="(dropdownOpen ? 'Close' : 'Open') + ' dropdown'"
             @click="() => {dropdownOpen = !dropdownOpen}"
         >
@@ -58,7 +74,7 @@ onBeforeUnmount(() => { if (resizeObserver) resizeObserver.disconnect() })
             </ul>
         </div>
         <div class="nav__actions__container">
-            <NuxtLink to="/" class="nowrap bold grid-center style-reset">
+            <NuxtLink to="/" class="nowrap bold grid-center style-reset nav--expanded">
                 <p>List Product</p>
             </NuxtLink>
             <NuxtLink to="/" class="button--pill style-reset">
@@ -75,7 +91,7 @@ nav {
 
     display: flex;
     align-items: center;
-    gap: 1rem;
+    column-gap: 1rem;
 }
 
 
@@ -112,7 +128,7 @@ nav {
 
 .nav__actions__container {
     display: flex;
-    gap: 1rem;
+    column-gap: 1rem;
 
     margin-left: auto;
 }
