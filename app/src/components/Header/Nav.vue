@@ -6,13 +6,33 @@ import CloseSVG from "~/assets/svgs/Close.vue"
 
 // #endregion Imports
 
+
 let dropdownOpen = ref(false)
 let navMainShown = ref(false)
+
+
+const nav = useTemplateRef("nav")
+
+const onResize = () => {
+    console.log("Nav resized")
+}
+
+
+// Set up a resize observer to call `onResize` when `nav` changes size
+let resizeObserver: ResizeObserver | null = null
+const setupResizeObserver = () => {
+    resizeObserver = new ResizeObserver(_ => {
+        onResize()
+    })
+    if (nav.value) resizeObserver.observe(nav.value)
+}
+onMounted(() => setupResizeObserver())
+onBeforeUnmount(() => { if (resizeObserver) resizeObserver.disconnect() })
 
 </script>
 
 <template>
-    <nav role="navigation">
+    <nav role="navigation" ref="nav">
         <button class="nav__dropdown-toggle style-reset" type="button" 
             :title="(dropdownOpen ? 'Close' : 'Open') + ' dropdown'"
             @click="() => {dropdownOpen = !dropdownOpen}"
