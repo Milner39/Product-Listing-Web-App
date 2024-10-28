@@ -1,6 +1,10 @@
 <script setup lang="ts">
+// #region Imports
 
 import type { Product } from "types/product.d.ts"
+
+// #endregion Imports
+
 
 defineProps<{
     product?: Product
@@ -10,11 +14,15 @@ defineProps<{
 </script>
 
 <template>
-    <div class="product__image__wrapper">
+    <div class="product__image__wrapper" 
+        :class="{ skeleton: loading === true }"
+    >
         <img :src="product?.thumbnail"/>
     </div>
-    <div class="product__details">
-        <p class="product__details__title">{{ product?.title }}</p>
+    <div class="product__details" 
+        :class="{ skeleton: loading === true }"
+    >
+        <p class="product__details__title">{{ product?.title || "title placeholder" }}</p>
     </div>
 </template>
 
@@ -23,6 +31,10 @@ defineProps<{
 .product__image__wrapper {
     display: grid;
     place-content: center;
+
+    &.skeleton {
+        aspect-ratio: 1/1;
+    }
 }
 
 .product__details {
@@ -32,6 +44,10 @@ defineProps<{
         text-wrap: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    &.skeleton {
+        visibility: hidden;
     }
 }
 
