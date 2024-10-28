@@ -69,6 +69,7 @@ export default defineNuxtConfig({
 		pages: "./routes", // default: pages
 		public: "./public", // default: public
 	},
+	serverDir: fileURLToPath(new URL("./src/server", appRoot)), // default: server
 	components: { dirs: [
 		{ path: "~/components", global: false },
 		{ path: "~/assets/svgs", global: false }
