@@ -38,7 +38,9 @@ defineProps<{
 }
 
 .product__details {
-    padding: 0.25rem 1rem;
+    border-top: 1px solid gray;
+
+    padding: 0.5rem 1rem;
 
     > .product__details__title {
         text-wrap: nowrap;
