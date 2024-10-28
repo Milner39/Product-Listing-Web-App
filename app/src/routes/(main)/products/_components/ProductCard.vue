@@ -23,6 +23,7 @@ defineProps<{
         :class="{ skeleton: loading === true }"
     >
         <p class="product__details__title">{{ product?.title || "title placeholder" }}</p>
+        <p class="product__details__price">£{{ product?.price }}</p>
     </div>
 </template>
 
@@ -47,7 +48,12 @@ defineProps<{
 
     padding: 0.5rem 1rem;
 
+    display: flex;
+    gap: 1rem;
+
     > .product__details__title {
+        margin-right: auto;
+
         text-wrap: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
