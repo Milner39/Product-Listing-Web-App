@@ -63,7 +63,7 @@ onBeforeUnmount(() => { if (resizeObserver) resizeObserver.disconnect() })
             <ul class="nav__main__list style-reset">
                 <li class="nav__main__item">
                     <NuxtLink to="/products" class="nav__main__link style-reset">
-                        <p>Explore</p>
+                        <p>Find Products</p>
                     </NuxtLink>
                 </li>
                 <li class="nav__main__item">
