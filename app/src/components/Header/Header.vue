@@ -10,6 +10,9 @@
 header {
     position: sticky;
     top: 0;
+
+    background-color: white;
+    border-bottom: 2px solid black;
 }
 
 </style>

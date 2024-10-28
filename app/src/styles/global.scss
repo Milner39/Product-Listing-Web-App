@@ -77,7 +77,7 @@ svg {
 // Utility classes
 .grid--cards {
     display: grid;
-    gap: 1rem;
+    gap: 2rem;
     grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
 }
 

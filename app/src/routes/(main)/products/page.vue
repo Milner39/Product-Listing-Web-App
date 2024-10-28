@@ -1,5 +1,12 @@
 <script setup lang="ts">
+// #region Imports
 
+import ProductCard from "./_components/ProductCard.vue"
+
+// #endregion Imports
+
+
+// Define subroutine to lazily get products data
 const getProducts = async () => {
     return await useLazyAsyncData(() => 
         $fetch("/api/products", {
@@ -7,24 +14,26 @@ const getProducts = async () => {
         })
     )
 }
+
+// Get products data
 const { status: getProductsStatus, data: getProductsData } = await getProducts()
-const products = getProductsData.value.products
+const products = getProductsData.value?.products
 
 </script>
 
 <template>
 	<ul class="grid--cards style-reset">
-        <li 
+        <li class="product" 
             v-if="getProductsStatus === 'success'" 
             v-for="product in products"
         >
-            <p>{{ product.title }}</p>
+            <ProductCard :key="product.id" :product="product"/>
         </li>
-        <li
+        <li class="product" 
             v-else
             v-for="_ in Array(30)"
         >
-            <p>...</p>
+            <ProductCard :loading="true"/>
         </li>
     </ul>
 </template>

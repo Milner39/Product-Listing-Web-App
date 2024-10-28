@@ -3,8 +3,8 @@ import type { NuxtPage } from "nuxt/schema"
 /*
 	Define routes.
 	Do it this way because:
-	- Doesn't require a layouts in separate directory.
-	- Nested layouts are more intuitive.
+	- Doesn't require layouts in separate directory.
+	- Allows for nested layouts.
 */
 const routes = [
 	{

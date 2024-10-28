@@ -33,7 +33,8 @@ export default defineNuxtConfig({
 	// Aliases
 	alias: {
 		"~": fileURLToPath(new URL("./src", appRoot)),
-		"~~": fileURLToPath(projectRoot)
+		"~~": fileURLToPath(projectRoot),
+		"types": fileURLToPath(new URL("./types", appRoot))
 	},
 
 
@@ -97,7 +98,7 @@ export default defineNuxtConfig({
 	hooks: {
 		// Set up routes
 		"pages:extend" (pages) {
-			// Remove generate routes
+			// Remove generated routes
 			pages.splice(0, pages.length)
 
 			// Add routes
