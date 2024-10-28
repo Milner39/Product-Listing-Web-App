@@ -75,6 +75,13 @@ svg {
 
 
 // Utility classes
+.grid--cards {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
+}
+
+
 .grid-center {
     display: grid;
     align-items: center;
