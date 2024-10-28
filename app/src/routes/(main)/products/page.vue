@@ -27,6 +27,7 @@ const products = getProductsData.value?.products
             v-if="getProductsStatus === 'success'" 
             v-for="product in products"
         >
+            <!-- @vue-skip -->
             <ProductCard :key="product.id" :product="product"/>
         </li>
         <li class="product" 
@@ -39,8 +40,16 @@ const products = getProductsData.value?.products
 </template>
 
 <style lang="scss" scoped>
-    .grid--cards {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
+
+.grid--cards {
+    padding: 1rem
+}
+
+.product {
+    background-color: rgb(245, 245, 245);
+
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
 </style>
