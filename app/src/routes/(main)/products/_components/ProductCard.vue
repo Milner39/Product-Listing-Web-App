@@ -17,7 +17,7 @@ defineProps<{
     <div class="product__image__wrapper" 
         :class="{ skeleton: loading === true }"
     >
-        <img :src="product?.thumbnail"/>
+        <img class="product__image":src="product?.thumbnail"/>
     </div>
     <div class="product__details" 
         :class="{ skeleton: loading === true }"
@@ -29,11 +29,16 @@ defineProps<{
 <style lang="scss" scoped>
 
 .product__image__wrapper {
-    display: grid;
+    display: flex;
     place-content: center;
+    aspect-ratio: 1/1;
+
+    > .product__image {
+        width: 100%;
+    }
 
     &.skeleton {
-        aspect-ratio: 1/1;
+        visibility: hidden
     }
 }
 
