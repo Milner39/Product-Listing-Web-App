@@ -23,7 +23,9 @@ html {
 }
 
 body {
-    min-height: 100dvh; // Ensure body fills the viewport
+    // Ensure body fills the viewport
+    width: 100%;
+    min-height: 100dvh;
 }
 
 // Improve media defaults

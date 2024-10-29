@@ -6,7 +6,7 @@ import CloseSVG from "~/assets/svgs/Close.vue"
 // #endregion Imports
 
 
-defineProps<{
+const props = defineProps<{
     open: boolean
 }>()
 
@@ -14,13 +14,39 @@ const emit = defineEmits<{
     close: []
 }>()
 
+
+// Define reference to `open` prop so its value can be changed in this component
+const openRef = ref(props.open)
+
+// Open model if initial prop value is true
+onMounted(() => { if (props.open === true) open() })
+
+// Watch for changes of `open` prop
+watch(() => props.open, (newVal, prevVal) => {
+    openRef.value = newVal // update reference
+
+    // Open model if `open` prop value is updated
+    if (newVal === true) open() 
+})
+
+const open = () => {
+    const scrollY = window.scrollY
+    document.body.style.position = "fixed"
+    document.body.style.top = `-${scrollY}px`
+}
+
 const close = () => {
     emit("close")
+
+    const scrollY = document.body.style.top
+    document.body.style.position = ""
+    document.body.style.top = ""
+    window.scrollTo(0, parseInt(scrollY || "0") * -1)
 }
 </script>
 
 <template>
-    <dialog class="modal__wrapper style-reset" :open="open"
+    <dialog class="modal__wrapper style-reset" :open="openRef"
         @click.self="close"
     >
         <div class="modal">
