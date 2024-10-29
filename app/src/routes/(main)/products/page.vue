@@ -17,15 +17,19 @@ const getProducts = async () => {
 
 // Get products data
 const { status: getProductsStatus, data: getProductsData } = await getProducts()
-const products = getProductsData.value?.products
 
 </script>
 
 <template>
-	<ul class="grid--cards style-reset">
+	<ul class="grid--cards style-reset"
+        v-if="
+            getProductsStatus === 'pending' || 
+            (getProductsData && getProductsData.products.length > 0)
+        "
+    >
         <li class="product" 
             v-if="getProductsStatus === 'success'" 
-            v-for="product in products"
+            v-for="product in getProductsData?.products"
         >
             <!-- @vue-skip -->
             <ProductCard :key="product.id" :product="product"/>
@@ -37,6 +41,7 @@ const products = getProductsData.value?.products
             <ProductCard :loading="true"/>
         </li>
     </ul>
+    <h6 class="no-results" v-else>No Products Found</h6>
 </template>
 
 <style lang="scss" scoped>
@@ -50,6 +55,13 @@ const products = getProductsData.value?.products
 
     border-radius: 1rem;
     overflow: hidden;
+}
+
+.no-results {
+    padding: 1rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 </style>
