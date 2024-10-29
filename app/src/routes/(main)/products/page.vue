@@ -4,6 +4,7 @@
 import Modal from "~/components/Modal.vue"
 import ProductCard from "./_components/ProductCard.vue"
 import ListPanel from "./_components/ModelContent/ListPanel.vue"
+import TagBox from "~/components/TagBox.vue"
 
 import FilterSVG from "~/assets/svgs/Filter.vue"
 import SortSVG from "~/assets/svgs/Sort.vue"
@@ -67,14 +68,35 @@ const sortModalOpen = ref(false)
                         <template #title>
                             <h6>Filters</h6>
                         </template>
-                        <button class="button--box style-reset">
-                            <p>Brand </p>
+                        <button class="style-reset">
+                            <TagBox :tags="['Apple', 'Sony', 'Google']">
+                                <template #titleText>
+                                    <p>Brand</p>
+                                </template>
+                                <template #titleSVGRight>
+                                    >
+                                </template>
+                            </TagBox>
                         </button>
-                        <button class="button--box style-reset">
-                            <p>Category</p>
+                        <button class="style-reset">
+                            <TagBox :tags="[]">
+                                <template #titleText>
+                                    <p>Category</p>
+                                </template>
+                                <template #titleSVGRight>
+                                    >
+                                </template>
+                            </TagBox>
                         </button>
-                        <button class="button--box style-reset">
-                            <p>Tags</p>
+                        <button class="style-reset">
+                            <TagBox :tags="[]">
+                                <template #titleText>
+                                    <p>Tags</p>
+                                </template>
+                                <template #titleSVGRight>
+                                    >
+                                </template>
+                            </TagBox>
                         </button>
                     </ListPanel>
                 </div>
