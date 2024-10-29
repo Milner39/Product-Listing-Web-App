@@ -1,80 +1,46 @@
-import type { Nuxt, NuxtPage } from "nuxt/schema"
-
-/*
-	Define routes.
-	Do it this way because:
-	- Doesn't require layouts in separate directory.
-	- Allows for nested layouts.
-*/
-const routes = [
-	{
-		path: "/",
-		file: "~/routes/(main)/layout.vue",
-		children: [
-			{
-				path: "",
-				file: "~/routes/(main)/page.vue"
-			},
-			{
-				path: "about",
-				file: "~/routes/(main)/about/page.vue"
-			},
-			{
-				path: "products",
-				file: "~/routes/(main)/products/page.vue"
-			}
-		]
-	}
-] satisfies NuxtPage[]
-
-export default routes
-
-/* TODO:
-	- Generate these routes from the routes directory.
-	  Try copy how SvelteKit does it because it's pretty intuitive.
-	  Just use file names to control weather a view is a layout or a page.
-*/
-
-
-
-
-
-
+// #region Imports
 
 import fs from "node:fs"
 import { fileURLToPath } from "node:url"
 
+import type { NuxtPage } from "nuxt/schema"
+
+// #endregion Imports
 
 
-const routes_ = [
+
+// Array containing all of the routes generated from the directory structure
+const routes = [
 	{
 		path: "/",
 		children: []
 	}
 ] satisfies NuxtPage[]
 
-const groups = {
-	none: routes_[0]
+// Record containing the reference to the route of each layout group
+const groups: {[key: string]: NuxtPage[]} = {
+	none: routes[0].children
 }
 
-const routeURL = ["/"] // to keep track of the path matches
+// 
+const routeURL: string[] = [] // to keep track of the path matches
 
 
 
 const pageVueRegex = /^page(@(\w+))?\.vue$/ // "page.vue", "page@.vue", "page@main.vue"
 // [...] folder
-// (...) folder
-const regularDirRegex = /^(\w+\.?)*\w+$/ // regular folder
+const layoutGroupDirRegex = /^\([^.\n\[\]]+[^.\n[\]]\)$/ // (...) folder
+const regularDirRegex = /^(?![_\[(])[^.\n]+[^)\].]$/ // regular folder
 
 
 
-const getFileNamesInDirectory = (path: string) => {
+const getFileAndDirNamesInDirectory = (path: string) => {
 	return fs.readdirSync(path)
 }
 
 
 const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
-	const files = getFileNamesInDirectory(fileURLToPath(dirURL))
+	const filesAndDirs = getFileAndDirNamesInDirectory(fileURLToPath(dirURL))
 
 	/* The only relevant files in the routes dir are:
 		- layout.vue: defines a layout so `children` list must be created
@@ -88,7 +54,7 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 
 	// layout.vue must be checked first since it affects how "page.vue" files are handled
 	let layoutThisRoute = false
-	const layoutIndex = files.indexOf("layout.vue")
+	const layoutIndex = filesAndDirs.indexOf("layout.vue")
 	if (layoutIndex > -1) {
 		// Directory contains a "layout.vue" file
 
@@ -98,34 +64,36 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 			children: []
 		})
 
-		files.splice(layoutIndex, 1) // Remove from files array so its not iterated over
+		filesAndDirs.splice(layoutIndex, 1) // Remove from files array so its not iterated over
 		layoutThisRoute = true
 	}
 
-	for (const file in files) {
+	for (const fileOrDir of filesAndDirs) {
 		// "page.vue", "page@.vue", "page@main.vue"
-		const pageVueRegexResult = file.match(pageVueRegex)
+		const pageVueRegexResult = fileOrDir.match(pageVueRegex)
 		if (pageVueRegexResult) {
 			// File is a "page.vue", etc. file
 			if (pageVueRegexResult[1]) {
 				// File contains "@"
 
 				const layoutGroup = pageVueRegexResult[2] // The part between "@" and ".vue"
-				// @ts-ignore
-				groups[layoutGroup | "none"].children.push({
+				
+				groups[layoutGroup || "none"].push({
 					path: routeURL.join(""),
-					file: fileURLToPath(new URL(`./${file}`, dirURL))
+					file: fileURLToPath(new URL(`./${fileOrDir}`, dirURL))
 				})
 			} 
 			else if (layoutThisRoute) {
-				route[route.length -1].children?.push({
+				// @ts-ignore: Object is possibly 'undefined'
+				route[route.length -1].children.push({
 					path: "",
-					file: fileURLToPath(new URL(`./${file}`, dirURL))
+					file: fileURLToPath(new URL(`./${fileOrDir}`, dirURL))
 				})
 			} 
 			else {
 				route.push({
-					path: routeURL.join("")
+					path: "",
+					file: fileURLToPath(new URL(`./${fileOrDir}`, dirURL))
 				})
 			}
 		}
@@ -133,22 +101,70 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 		// [...] folder
 
 		// (...) folder
+		else if (fileOrDir.match(layoutGroupDirRegex)) {
+			// File is a layout group folder
+			
+			if (layoutThisRoute) {
+				// @ts-ignore: Object is possibly 'undefined'
+				const childrenCount = route[route.length -1].children.push({
+					path: "",
+					children: []
+				})
+
+				// @ts-ignore: Object is possibly 'undefined'
+				groups[fileOrDir] = route[route.length -1].children[childrenCount -1].children || []
+			}
+			else {
+				route.push({
+					path: "",
+					children: []
+				})
+
+				groups[fileOrDir] = route[route.length -1].children || []
+			}
+
+			getRoutes(
+				new URL(`./${fileOrDir}/`, dirURL),
+				groups[fileOrDir]
+			)
+		}
 
 		// Regular folder
-		if (file.match(regularDirRegex)) {
+		else if (fileOrDir.match(regularDirRegex)) {
 			// File is a regular folder
 
-			routeURL.push(file)
+			routeURL.push(fileOrDir)
 
-			// Need to route.push but check for layout
+			if (layoutThisRoute) {
+				route[route.length -1].children?.push({
+					path: `${fileOrDir}`,
+					children: []
+				})
+			}
+			else {
+				route.push({
+					path: `${fileOrDir}`,
+					children: []
+				})
+			}
 
-			getRoutes(new URL(`./${file}`, dirURL, ))
+			const lastItemInRoute = route[route.length -1]
+			
+			getRoutes(
+				new URL(`./${fileOrDir}/`, dirURL), 
+				layoutThisRoute ? 
+					// @ts-ignore
+					lastItemInRoute.children[lastItemInRoute.children.length -1].children || [] :
+					lastItemInRoute.children || []
+			)
+
+			routeURL.pop()
 		}
 	}
 }
 
 const routesPath = new URL("./", import.meta.url)
 
-getRoutes(routesPath, routes_)
+getRoutes(routesPath, routes[0].children)
 
-console.log(routes_)
+export default routes
