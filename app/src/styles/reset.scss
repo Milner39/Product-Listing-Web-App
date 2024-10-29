@@ -50,18 +50,18 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
-// Specific element resets
-a.style-reset {
+// Specific element resets use :where to reduce specificity
+:where(.style-reset) {
     color: inherit; // Inherit text color
     text-decoration: none; // Remove default underline
 }
 
-ul.style-reset {
+:where(ul.style-reset) {
     list-style: none; // Remove default list styles
     padding: 0; // Remove default padding
 }
 
-button.style-reset {
+:where(button.style-reset) {
     background: none; // Remove default background
     border: none; // Remove default border
     padding: 0; // Remove default padding
@@ -69,4 +69,9 @@ button.style-reset {
     &:hover {
         cursor: pointer; // Add pointer on hover
     }
+}
+
+:where(dialog.style-reset) {
+    border-width: 0;
+    padding: 0;
 }
