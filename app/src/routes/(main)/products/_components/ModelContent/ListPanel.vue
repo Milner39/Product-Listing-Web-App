@@ -12,12 +12,11 @@
 .list-panel {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
 
     > .list-panel__list {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.5rem;
     }
 }
 

@@ -8,6 +8,7 @@ import TagBox from "~/components/TagBox.vue"
 
 import FilterSVG from "~/assets/svgs/Filter.vue"
 import SortSVG from "~/assets/svgs/Sort.vue"
+import ArrowRightSVG from "~/assets/svgs/ArrowRight.vue"
 
 // #endregion Imports
 
@@ -68,36 +69,42 @@ const sortModalOpen = ref(false)
                         <template #title>
                             <h6>Filters</h6>
                         </template>
-                        <button class="style-reset">
-                            <TagBox :tags="['Apple', 'Sony', 'Google']">
-                                <template #titleText>
-                                    <p>Brand</p>
-                                </template>
-                                <template #titleSVGRight>
-                                    >
-                                </template>
-                            </TagBox>
-                        </button>
-                        <button class="style-reset">
-                            <TagBox :tags="[]">
-                                <template #titleText>
-                                    <p>Category</p>
-                                </template>
-                                <template #titleSVGRight>
-                                    >
-                                </template>
-                            </TagBox>
-                        </button>
-                        <button class="style-reset">
-                            <TagBox :tags="[]">
-                                <template #titleText>
-                                    <p>Tags</p>
-                                </template>
-                                <template #titleSVGRight>
-                                    >
-                                </template>
-                            </TagBox>
-                        </button>
+                        <li class="flex-col">
+                            <button class="style-reset" type="button">
+                                <TagBox :tags="['Apple', 'Sony', 'Google']">
+                                    <template #titleText>
+                                        <p>Brand</p>
+                                    </template>
+                                    <template #titleSVGRight>
+                                        <ArrowRightSVG/>
+                                    </template>
+                                </TagBox>
+                            </button>
+                        </li>
+                        <li class="flex-col">
+                            <button class="style-reset" type="button">
+                                <TagBox :tags="[]">
+                                    <template #titleText>
+                                        <p>Category</p>
+                                    </template>
+                                    <template #titleSVGRight>
+                                        <ArrowRightSVG/>
+                                    </template>
+                                </TagBox>
+                            </button>
+                        </li>
+                        <li class="flex-col">
+                            <button class="style-reset" type="button">
+                                <TagBox :tags="[]">
+                                    <template #titleText>
+                                        <p>Tags</p>
+                                    </template>
+                                    <template #titleSVGRight>
+                                        <ArrowRightSVG/>
+                                    </template>
+                                </TagBox>
+                            </button>
+                        </li>
                     </ListPanel>
                 </div>
             </template>

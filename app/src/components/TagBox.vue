@@ -19,19 +19,23 @@ const emit = defineEmits<{
 <template>
     <div class="tag-box__wrapper">
         <div class="tag-box__title">
-            <slot v-if="$slots.titleSVGLeft" name="titleSVGLeft"/>
+            <div v-if="$slots.titleSVGLeft" class="title-svg__wrapper">
+                <slot name="titleSVGLeft"/>
+            </div>
             <slot name="titleText"/>
-            <slot v-if="$slots.titleSVGRight" name="titleSVGRight"/>
+            <div v-if="$slots.titleSVGRight" class="title-svg__wrapper">
+                <slot name="titleSVGRight"/>
+            </div>
         </div>
         <ul v-if="tags?.length > 0" class="tag-box__tags style-reset">
-            <div v-for="tag, index of tags" class="tag-box__tag">
+            <li v-for="tag, index of tags" class="tag-box__tag">
                 <p>{{ tag }}</p>
                 <button class="style-reset"
                     @click="$emit('removeTag', index)"
                 >
                     <CloseSVG/>
                 </button>
-            </div>
+            </li>
         </ul>
     </div>
 </template>
@@ -39,11 +43,8 @@ const emit = defineEmits<{
 <style lang="scss" scoped>
     
 .tag-box__wrapper {
-    // IMPROVE: Style
-    min-width: 30ch;
-    max-width: 35ch;
+    max-width: 48ch;
 
-    display: block;
     border: 1px solid gray;
     border-radius: 0.5em;
 
@@ -53,8 +54,26 @@ const emit = defineEmits<{
         display: flex;
         gap: 0.5em;
 
-        > :not(svg) {
-            margin-right: auto;
+        // ISSUE:
+        > :not(.title-svg__wrapper) {
+            flex-grow: 1;
+            display: flex;
+        }
+
+        .title-svg__wrapper {
+            flex-grow: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1/1;
+
+            > svg {
+                background-color: red;
+                min-width: revert;
+                width: calc(var(--browser-fs-scale) * 1rem);
+                padding: 0.1rem;
+            }
         }
     }
 

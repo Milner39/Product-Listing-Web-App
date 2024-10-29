@@ -81,6 +81,16 @@ svg {
 
 
 // Utility classes
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    @extend .flex;
+    flex-direction: column;
+}
+
+
 .grid-center {
     display: grid;
     align-items: center;
