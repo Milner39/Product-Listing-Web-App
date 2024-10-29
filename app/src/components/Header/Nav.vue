@@ -99,7 +99,7 @@ nav {
     flex-shrink: 0;
     padding: 0.5rem;
 
-    > :global(svg) {
+    > svg {
         min-width: revert;
         width: calc(var(--browser-fs-scale) * 1.25rem);
     }
