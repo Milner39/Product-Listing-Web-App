@@ -30,12 +30,15 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 
 
+
 	// Aliases
 	alias: {
 		"~": fileURLToPath(new URL("./src", appRoot)),
 		"~~": fileURLToPath(projectRoot),
 		"types": fileURLToPath(new URL("./types", appRoot))
 	},
+
+
 
 
 	// App configuration
@@ -52,19 +55,20 @@ export default defineNuxtConfig({
 	},
 
 
+
 	// Directory configuration
-	// Output directories
+	// -   Output directories
 	rootDir: fileURLToPath(projectRoot),
 	buildDir: fileURLToPath(new URL("./nuxt.temp/generated", appRoot)), // default: .nuxt
 	analyzeDir: fileURLToPath(new URL("./nuxt.temp/stats", appRoot)), // default: .nuxt/analyze
 	nitro: { output: {
-			dir: fileURLToPath(new URL("./nuxt.temp/build", appRoot)), // default: .output
-			// serverDir: fileURLToPath(new URL("./nuxt.temp/build/server", appRoot)), // default: .output/server
-			// publicDir: fileURLToPath(new URL("./nuxt.temp/build/public", appRoot)), // default: .output/client
+		dir: fileURLToPath(new URL("./nuxt.temp/build", appRoot)), // default: .output
+		// serverDir: fileURLToPath(new URL("./nuxt.temp/build/server", appRoot)), // default: .output/server
+		// publicDir: fileURLToPath(new URL("./nuxt.temp/build/public", appRoot)), // default: .output/client
 	}},
-	// Output directories
+	// -   Output directories
 
-	// Source directories
+	// -   Source directories
 	srcDir: fileURLToPath(new URL("./src", appRoot)),
 	dir: {
 		pages: "./routes", // default: pages
@@ -75,8 +79,9 @@ export default defineNuxtConfig({
 		{ path: "~/components", global: false },
 		{ path: "~/assets/svgs", global: false }
 	] },
-	// Source directories
+	// -   Source directories
 	// Directory configuration
+
 
 
 	// Server configuration
@@ -86,12 +91,14 @@ export default defineNuxtConfig({
 	// Server configuration
 
 	
+
 	/*
 		Generated routes from the pages directory won't be used but
 		if this is set to `false`, the app will not work...
 		don't ask me why... Nuxt is weird.
 	*/
 	pages: true, // Controls whether Nuxt should generate routes from the pages directory
+
 
 
 	//  Lifecycle hooks
@@ -107,6 +114,7 @@ export default defineNuxtConfig({
 			}
 		}
 	}
+
 
 	/* TODO:
 		- Figure out how to enable strict port in Vite
