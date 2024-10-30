@@ -192,7 +192,8 @@ for (const product of getProductsData.value?.products || []) {
                             />
                         </div>
                         <div class="content-panel__search-options">
-                            <SearchBar placeholder="Search filter options..."
+                            <SearchBar 
+                                placeholder="Search filter options..." 
                                 v-model:value="filterOptionSearch"
                             />
                             <ul class="search-options__options style-reset"

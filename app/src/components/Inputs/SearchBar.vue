@@ -6,15 +6,11 @@ import SearchSVG from "~/assets/svgs/Search.vue"
 // #endregion Imports
 
 
-interface Props {
-    placeholder: string,
-}
+// Reactive state to control input placeholder
+const placeholder = defineModel<string>("placeholder", { default: ""})
 
-withDefaults(defineProps<Props>(), {
-    placeholder: ""
-})
-
-const value = defineModel("value", { default: ""})
+// Reactive state to control input value
+const value = defineModel<string>("value", { default: ""})
 
 </script>
 
