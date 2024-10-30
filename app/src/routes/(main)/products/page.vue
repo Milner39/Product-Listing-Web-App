@@ -7,6 +7,7 @@ import ListPanel from "./_components/ModelContent/ListPanel.vue"
 import ContentPanel from "./_components/ModelContent/ContentPanel.vue"
 import TagBox from "~/components/TagBox.vue"
 import SearchBar from "~/components/Inputs/SearchBar.vue"
+import Checkbox from "~/components/Inputs/Checkbox.vue"
 
 import FilterSVG from "~/assets/svgs/Filter.vue"
 import SortSVG from "~/assets/svgs/Sort.vue"
@@ -70,6 +71,12 @@ const selectedFilter: Ref<number> = ref(0)
 const filterOptionSearch: Ref<string> = ref("")
 const filterOptionSearchResults: Ref<string[]> = ref([])
 
+
+// Watcher to reset search when selected filter changes
+watch(selectedFilter, () => {
+    filterOptionSearch.value = ""
+})
+
 // Watcher to update filter option search results
 watch(filterOptionSearch, () => {
     // If search is empty
@@ -80,9 +87,9 @@ watch(filterOptionSearch, () => {
     }
 
     filterOptionSearchResults.value =
-        [...filters.value[selectedFilter.value].options].filter((option) => {
-            return option.toLocaleLowerCase().startsWith(filterOptionSearch.value.toLocaleLowerCase())
-        })
+        [...filters.value[selectedFilter.value].options].filter((option) =>
+            option.toLocaleLowerCase().startsWith(filterOptionSearch.value.toLocaleLowerCase())
+        )
 })
 
 
@@ -183,7 +190,7 @@ for (const product of getProductsData.value?.products || []) {
                         <template #title>
                             <h6>{{ filters[selectedFilter].title }}</h6>
                         </template>
-                        <div class="content-panel__selected-filters">
+                        <div class="content-panel__selected-options">
                             <p>Look for: <strong>{{ filters[selectedFilter].selected.size === 0 ? "All" : "" }}</strong></p>
                             <TagBox 
                                 v-if="filters[selectedFilter].selected.size > 0"
@@ -193,23 +200,26 @@ for (const product of getProductsData.value?.products || []) {
                                 }"
                             />
                         </div>
-                        <div class="content-panel__search-filters">
+                        <div class="content-panel__search-options">
                             <SearchBar placeholder="Search filter options..."
                                 v-model:value="filterOptionSearch"
                             />
-                            <ul class="search-filters__filters style-reset"
+                            <ul class="search-options__options style-reset"
                                 v-if="
                                     filterOptionSearch !== '' &&
                                     filterOptionSearchResults.length > 0
                                 " 
                             >
-                                <li class="search-filters__filter"
+                                <li class="search-options__option"
                                     v-for="option in filterOptionSearchResults"
                                 >
-                                    {{ option }}
+                                    <button class="option__button style-reset" type="button">
+                                        <p class="option__button__text">{{ option }}</p>
+                                        <Checkbox/>
+                                    </button>
                                 </li>
                             </ul>
-                            <div class="search-filters__no-results"
+                            <div class="search-options__no-results"
                                 v-else-if="
                                     filterOptionSearch !== '' &&
                                     filterOptionSearchResults.length === 0
@@ -305,32 +315,50 @@ for (const product of getProductsData.value?.products || []) {
         }
     }
 
-    .content-panel__selected-filters {
-        &::v-deep > .tag-box__wrapper {
+    .content-panel__selected-options {
+        &::v-deep .tag-box__wrapper {
             border: 1px solid gray;
             border-radius: 0.5em;
             padding: 0.5em
         }
     }
 
-    .content-panel__search-filters {
+    .content-panel__search-options {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
 
-        .search-filters__filters {
+        > .search-options__options {
             background-color: white;
             border-radius: 1.5rem;
 
-            padding: 0.5rem 1rem;
+            padding-block: 0.5rem;
 
-            .search-filters__filter {
+            > .search-options__option {
+                margin-left: 1rem;
 
+                > .option__button {
+                    width: 100%;
+
+                    display: grid;
+                    grid-template-columns: 1fr auto;
+
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    > .option__button__text {
+                        margin-right: auto
+                    }
+
+                    &::v-deep > .input--checkbox {
+                        margin-right: 0.9rem
+                    }
+                }
             }
         }
 
-        .search-filters__no-results {
-            @extend .search-filters__filters;
+        > .search-options__no-results {
+            @extend .search-options__options;
             text-align: center;
         }
     }

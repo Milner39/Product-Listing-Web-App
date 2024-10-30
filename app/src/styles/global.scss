@@ -54,6 +54,24 @@ svg {
 }
 
 
+// Inputs
+.input--checkbox {
+    aspect-ratio: 1/1;
+    width: 1.5em;
+
+    border: 1px solid black;
+    border-radius: 0.25em;
+
+    color: white;
+
+    padding: 0.15em;
+
+    &[checked=true] {
+        background-color: black;
+    }
+}
+
+
 // Buttons
 .button--pill {
     display: block;
