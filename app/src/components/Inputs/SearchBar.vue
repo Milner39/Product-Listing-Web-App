@@ -24,7 +24,7 @@ const value = defineModel("value", { default: ""})
             :placeholder="placeholder"
             v-model="value"
         />
-        <button class="search-bar__svg__wrapper button--dot style-reset">
+        <button class="search-bar__svg__wrapper button--dot style-reset" type="button">
             <SearchSVG/>
         </button>
     </div>
