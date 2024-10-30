@@ -153,7 +153,7 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 			getRoutes(
 				new URL(`./${fileOrDir}/`, dirURL), 
 				layoutThisRoute ? 
-					// @ts-ignore
+					// @ts-ignore: Object is possibly 'undefined'
 					lastItemInRoute.children[lastItemInRoute.children.length -1].children || [] :
 					lastItemInRoute.children || []
 			)
