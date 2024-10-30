@@ -33,7 +33,7 @@ defineProps<{
     .search-bar__input {
         width: 100%;
         min-width: 32ch;
-        padding-left: 1em;
+        padding-inline: 1em;
         padding-block: 0.5em;
     }
 
