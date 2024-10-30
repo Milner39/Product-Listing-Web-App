@@ -34,7 +34,7 @@ const value = defineModel("value", { default: ""})
 
 .search-bar__wrapper {
     display: grid;
-    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
 
     background-color: white;
     border-radius: 9999rem;

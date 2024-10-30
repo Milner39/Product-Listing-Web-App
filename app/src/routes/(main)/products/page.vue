@@ -238,7 +238,7 @@ for (const product of getProductsData.value?.products || []) {
             </li>
             <li class="product" 
                 v-else
-                v-for="_ in Array(30)"
+                v-for="_ in Array(32)"
             >
                 <ProductCard :loading="true"/>
             </li>
@@ -322,7 +322,7 @@ for (const product of getProductsData.value?.products || []) {
             background-color: white;
             border-radius: 1.5rem;
 
-            padding: 1rem;
+            padding: 0.5rem 1rem;
 
             .search-filters__filter {
 
@@ -331,7 +331,6 @@ for (const product of getProductsData.value?.products || []) {
 
         .search-filters__no-results {
             @extend .search-filters__filters;
-            padding-block: 0.5rem;
             text-align: center;
         }
     }
