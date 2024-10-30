@@ -6,23 +6,28 @@ import CloseSVG from "~/assets/svgs/Close.vue"
 // #endregion Imports
 
 
-defineProps<{
-    tags: string[]
-}>()
+// Reactive state to hold tags to display
+const tags = defineModel< Set<string> | string[] >("tags", { default: new Set() })
 
-const emit = defineEmits<{
-    removeTag: [value: string, index: number]
-}>()
+// Computed refs to get / set `tags` information depending on if `tags` is an Array or Set
+const tagsLength = computed(() => {
+    if (tags.value instanceof Set) return tags.value.size
+    else return tags.value.length
+})
+const tagsDelete = computed(() => (value: string, index: number) => {
+    if (tags.value instanceof Set) tags.value.delete(value)
+    else tags.value.splice(index, 1)
+})
 
 </script>
 
 <template>
     <div class="tag-box__wrapper">
-        <ul v-if="tags.length > 0" class="tag-box__tags style-reset">
+        <ul v-if="tagsLength > 0" class="tag-box__tags style-reset">
             <li v-for="tag, index of tags" class="tag-box__tag">
                 <p class="tag__text">{{ tag }}</p>
                 <button class="tag__remove-button style-reset" type="button"
-                    @click.stop="$emit('removeTag', tag, index)"
+                    @click.stop="() => tagsDelete(tag, index)"
                 >
                     <CloseSVG/>
                 </button>

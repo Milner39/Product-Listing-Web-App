@@ -174,10 +174,7 @@ for (const product of getProductsData.value?.products || []) {
                                 </div>
                                 <TagBox 
                                     v-if="filter.selected.size > 0"
-                                    :tags="[...filter.selected]"
-                                    @removeTag="(tag) => {
-                                        filterTagBoxRemoveTag(filterIndex, tag)
-                                    }"
+                                    :tags="filter.selected"
                                 >
                                     <template #titleText>
                                         <p>{{ filter.title }}</p>
@@ -197,15 +194,12 @@ for (const product of getProductsData.value?.products || []) {
                             <p>Look for: <strong>{{ filters[selectedFilter].selected.size === 0 ? "All" : "" }}</strong></p>
                             <TagBox 
                                 v-if="filters[selectedFilter].selected.size > 0"
-                                :tags="[...filters[selectedFilter].selected]"
-                                @removeTag="(tag) => {
-                                    filterTagBoxRemoveTag(selectedFilter, tag)
-                                }"
+                                :tags="filters[selectedFilter].selected"
                             />
                         </div>
                         <div class="content-panel__search-options">
                             <SearchBar placeholder="Search filter options..."
-                                v-model:value="filterOptionSearch"
+                                :value="filterOptionSearch"
                             />
                             <ul class="search-options__options style-reset"
                                 v-if="
