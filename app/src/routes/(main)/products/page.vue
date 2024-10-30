@@ -27,33 +27,63 @@ const getProducts = async () => {
 const { status: getProductsStatus, data: getProductsData } = await getProducts()
 
 
+// Reactive state to control if model is open and what content to display
 const filterModalOpen = ref(false)
 const sortModalOpen = ref(false)
 
 
+// Reactive state for filtering products
 const filters: Ref<{ 
     title: string, 
+    key: string,
     selected: Set<string>,
     options: Set<string>
 }[]> = ref([
     {
         title: "Brand",
+        key: "brand",
         selected: new Set(["Google", "Apple", "Sony"]),
         options: new Set()
     },
     {
         title: "Category",
+        key: "category",
         selected: new Set(["Tech"]),
         options: new Set()
     },
     {
         title: "Tags",
+        key: "tags",
         selected: new Set(["Phone", "Smart Devices"]),
         options: new Set()
     }
 ])
 
+// Reactive state to control what filter model content is displayed
 const selectedFilter: Ref<number> = ref(0)
+
+// Subroutine to remove a tag from a filter
+const filterTagBoxRemoveTag = (filterIndex: number, tag: string) => {
+    filters.value[filterIndex].selected.delete(tag)
+}
+
+
+// Get every unique option for each filter based on the keys of each product
+for (const product of getProductsData.value?.products || []) {
+    for (const filter of filters.value) {
+        // @ts-ignore: Serialisation type mismatch
+        const productKeyVal = product[filter.key] 
+
+        if (typeof productKeyVal === "undefined") continue
+
+        if (Array.isArray(productKeyVal)) {
+            productKeyVal.forEach((val) => filter.options.add(val))
+        } 
+        else {
+            filter.options.add(productKeyVal)
+        }
+    }
+}
 
 </script>
 
@@ -62,13 +92,13 @@ const selectedFilter: Ref<number> = ref(0)
         getProductsStatus === 'pending' || 
         (getProductsData && getProductsData.products.length > 0)
     ">
-        <div class="filter-sort__wrapper">
-            <button class="filter-sort__button button--dot style-reset" type="button"
+        <div class="filter-sort-buttons__container">
+            <button class="filter-sort-buttons__button button--dot style-reset" type="button"
                 @click="() => filterModalOpen = true"
             >
                 <FilterSVG/>
             </button>
-            <button class="filter-sort__button button--dot style-reset" type="button"
+            <button class="filter-sort-buttons__button button--dot style-reset" type="button"
                 @click="() => sortModalOpen = true"
             >
                 <SortSVG/>
@@ -90,18 +120,28 @@ const selectedFilter: Ref<number> = ref(0)
                 </h5>
             </template>
             <template v-if="filterModalOpen">
-                <div>
+                <div class="filter-modal__content">
                     <ListPanel>
                         <template #title>
                             <h6>Filters</h6>
                         </template>
-                        <li class="flex-col"
+                        <li class="flex-col filter-select"
                             v-for="filter, filterIndex in filters"
                         >
-                            <button class="style-reset" type="button">
-                                <TagBox :tags="[...filter.selected]"
+                            <button class="style-reset" type="button"
+                                @click="() => { selectedFilter = filterIndex }"
+                            >
+                                <div class="filter-select__title">
+                                    <p class="title__text">{{ filter.title }}</p>
+                                    <div class="title__svg__wrapper">
+                                        <ArrowRightSVG/>
+                                    </div>
+                                </div>
+                                <TagBox 
+                                    v-if="filter.selected.size > 0"
+                                    :tags="[...filter.selected]"
                                     @removeTag="(tag) => {
-                                        filters[filterIndex].selected.delete(tag)
+                                        filterTagBoxRemoveTag(filterIndex, tag)
                                     }"
                                 >
                                     <template #titleText>
@@ -115,7 +155,19 @@ const selectedFilter: Ref<number> = ref(0)
                         </li>
                     </ListPanel>
                     <ContentPanel>
-
+                        <template #title>
+                            <h6>{{ filters[selectedFilter].title }}</h6>
+                        </template>
+                        <div>
+                            <p>Look for: <strong>{{ filters[selectedFilter].selected.size === 0 ? "All" : "" }}</strong></p>
+                            <TagBox 
+                                v-if="filters[selectedFilter].selected.size > 0"
+                                :tags="[...filters[selectedFilter].selected]"
+                                @removeTag="(tag) => {
+                                    filterTagBoxRemoveTag(selectedFilter, tag)
+                                }"
+                            />
+                        </div>
                     </ContentPanel>
                 </div>
             </template>
@@ -125,10 +177,13 @@ const selectedFilter: Ref<number> = ref(0)
         </Modal>
         <ul class="grid--cards style-reset">
             <li class="product" 
-                v-if="getProductsStatus === 'success'" 
-                v-for="product in getProductsData?.products"
+                v-if="
+                    getProductsStatus === 'success' &&
+                    getProductsData?.products
+                " 
+                v-for="product in getProductsData.products"
             >
-                <!-- @vue-skip -->
+                <!-- @vue-skip: Serialisation type mismatch -->
                 <ProductCard :key="product.id" :product="product"/>
             </li>
             <li class="product" 
@@ -144,14 +199,14 @@ const selectedFilter: Ref<number> = ref(0)
 
 <style lang="scss" scoped>
 
-.filter-sort__wrapper {
+.filter-sort-buttons__container {
     padding-top: 1rem;
     padding-inline: 1rem;
 
     display: flex;
     gap: 1rem;
 
-    > .filter-sort__button {
+    > .filter-sort-buttons__button {
         &::v-deep > svg {
             min-width: revert;
             width: calc(var(--browser-fs-scale) * 1.75rem);
@@ -159,16 +214,45 @@ const selectedFilter: Ref<number> = ref(0)
     }
 }
 
-.filter-modal__wrapper {
-    border: 0;
-    background-color: rgba($color: #000000, $alpha: 0.75);
+.filter-modal__content {
+    display: flex;
+    gap: 1rem;
 
-    position: absolute;
-    top: 0;
-    left: 0;
+    .filter-select {
+        border: 1px solid gray;
+        border-radius: 0.5em;
 
-    width: 100%;
-    height: 100%;
+        .filter-select__title {
+            display: flex;
+
+            > :not(.title__svg__wrapper) {
+                flex-grow: 1;
+                text-align: left;
+                margin-inline: 0.5em;
+            }
+
+            > .title__svg__wrapper {
+                flex-grow: 0;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                aspect-ratio: 1/1;
+
+                padding: 0.5em;
+
+                &::v-deep > svg {
+                    min-width: revert;
+                    width: calc(var(--browser-fs-scale) * 1rem);
+                }
+            }
+        }
+
+        &::v-deep .tag-box__wrapper {
+            padding-inline: 0.5em;
+            padding-bottom: 0.5em;
+        }
+    }
 }
 
 .grid--cards {
