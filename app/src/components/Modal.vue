@@ -115,7 +115,7 @@ const close = () => {
             align-items: center;
             aspect-ratio: 1/1;
 
-            > svg {
+            &::v-deep > svg {
                 padding: 0.45rem;
             }
         }

@@ -141,7 +141,7 @@ const sortModalOpen = ref(false)
     gap: 1rem;
 
     > .filter-sort__button {
-        > svg {
+        &::v-deep > svg {
             min-width: revert;
             width: calc(var(--browser-fs-scale) * 1.75rem);
         }

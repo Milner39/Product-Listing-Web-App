@@ -29,8 +29,8 @@ const emit = defineEmits<{
         </div>
         <ul v-if="tags?.length > 0" class="tag-box__tags style-reset">
             <li v-for="tag, index of tags" class="tag-box__tag">
-                <p>{{ tag }}</p>
-                <button class="style-reset"
+                <p class="tag__text">{{ tag }}</p>
+                <button class="tag__remove-button style-reset"
                     @click="$emit('removeTag', index)"
                 >
                     <CloseSVG/>
@@ -48,16 +48,16 @@ const emit = defineEmits<{
     border: 1px solid gray;
     border-radius: 0.5em;
 
-    padding-inline: 0.5em;
+    //padding-inline: 0.5em;
 
     > .tag-box__title {
         display: flex;
-        gap: 0.5em;
+        //gap: 0.5em;
 
-        // ISSUE:
         > :not(.title-svg__wrapper) {
             flex-grow: 1;
-            display: flex;
+            text-align: left;
+            margin-inline: 0.5em;
         }
 
         .title-svg__wrapper {
@@ -68,11 +68,11 @@ const emit = defineEmits<{
             align-items: center;
             aspect-ratio: 1/1;
 
-            > svg {
-                background-color: red;
+            padding: 0.5rem;
+
+            &::v-deep > svg {
                 min-width: revert;
                 width: calc(var(--browser-fs-scale) * 1rem);
-                padding: 0.1rem;
             }
         }
     }
@@ -83,19 +83,39 @@ const emit = defineEmits<{
 
         gap: 0.5rem;
 
+        padding-inline: 0.5em;
         padding-bottom: 0.5em;
 
         > .tag-box__tag {
-            width: fit-content;
+            max-width: fit-content;
             
-            display: flex;
-            gap: 0.25em;
+            display: grid;
+            grid-auto-flow: column;
 
-            padding: 0.25em 0.75em;
+            padding-block: 0.25em;
 
             border-radius: 2em;
-
             background-color: rgb(218, 232, 255);
+
+            > .tag__text {
+                margin-left: 0.75em;
+            }
+
+            > .tag__remove-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                aspect-ratio: 1/1;
+
+                // Add to 0.75em
+                padding: 0.5em;
+                margin-right: 0.25em;
+
+                &::v-deep > svg {
+                    min-width: revert;
+                    height: 100%;
+                }
+            }
         }
     }
 }

@@ -99,7 +99,7 @@ nav {
     flex-shrink: 0;
     padding: 0.5rem;
 
-    > svg {
+    &::v-deep > svg {
         min-width: revert;
         width: calc(var(--browser-fs-scale) * 1.25rem);
     }
