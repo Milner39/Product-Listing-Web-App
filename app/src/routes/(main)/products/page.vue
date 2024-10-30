@@ -4,6 +4,7 @@
 import Modal from "~/components/Modal.vue"
 import ProductCard from "./_components/ProductCard.vue"
 import ListPanel from "./_components/ModelContent/ListPanel.vue"
+import ContentPanel from "./_components/ModelContent/ContentPanel.vue"
 import TagBox from "~/components/TagBox.vue"
 
 import FilterSVG from "~/assets/svgs/Filter.vue"
@@ -29,23 +30,30 @@ const { status: getProductsStatus, data: getProductsData } = await getProducts()
 const filterModalOpen = ref(false)
 const sortModalOpen = ref(false)
 
+
 const filters: Ref<{ 
     title: string, 
-    tags: string[] 
+    selected: Set<string>,
+    options: Set<string>
 }[]> = ref([
     {
         title: "Brand",
-        tags: ["Google", "Apple", "Sony"]
+        selected: new Set(["Google", "Apple", "Sony"]),
+        options: new Set()
     },
     {
         title: "Category",
-        tags: ["Tech"]
+        selected: new Set(["Tech"]),
+        options: new Set()
     },
     {
         title: "Tags",
-        tags: ["Phone", "Smart Devices"]
+        selected: new Set(["Phone", "Smart Devices"]),
+        options: new Set()
     }
 ])
+
+const selectedFilter: Ref<number> = ref(0)
 
 </script>
 
@@ -91,8 +99,10 @@ const filters: Ref<{
                             v-for="filter, filterIndex in filters"
                         >
                             <button class="style-reset" type="button">
-                                <TagBox :tags="filter.tags"
-                                    @removeTag="(tagIndex) => filters[filterIndex].tags.splice(tagIndex, 1)"
+                                <TagBox :tags="[...filter.selected]"
+                                    @removeTag="(tag) => {
+                                        if (tag) filters[filterIndex].selected.delete(tag)
+                                    }"
                                 >
                                     <template #titleText>
                                         <p>{{ filter.title }}</p>
@@ -104,6 +114,9 @@ const filters: Ref<{
                             </button>
                         </li>
                     </ListPanel>
+                    <ContentPanel>
+
+                    </ContentPanel>
                 </div>
             </template>
             <template v-if="sortModalOpen">
