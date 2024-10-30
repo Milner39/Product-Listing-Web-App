@@ -51,7 +51,8 @@ const emit = defineEmits<{
             padding-block: 0.25em;
 
             border-radius: 2em;
-            background-color: rgb(218, 232, 255);
+            background-color: black;
+            color: white;
 
             > .tag__text {
                 margin-left: 0.75em;
