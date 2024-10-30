@@ -29,6 +29,24 @@ const { status: getProductsStatus, data: getProductsData } = await getProducts()
 const filterModalOpen = ref(false)
 const sortModalOpen = ref(false)
 
+const filters: Ref<{ 
+    title: string, 
+    tags: string[] 
+}[]> = ref([
+    {
+        title: "Brand",
+        tags: ["Google", "Apple", "Sony"]
+    },
+    {
+        title: "Category",
+        tags: ["Tech"]
+    },
+    {
+        title: "Tags",
+        tags: ["Phone", "Smart Devices"]
+    }
+])
+
 </script>
 
 <template>
@@ -69,35 +87,15 @@ const sortModalOpen = ref(false)
                         <template #title>
                             <h6>Filters</h6>
                         </template>
-                        <li class="flex-col">
+                        <li class="flex-col"
+                            v-for="filter, filterIndex in filters"
+                        >
                             <button class="style-reset" type="button">
-                                <TagBox :tags="['Apple', 'Sony', 'Google']">
+                                <TagBox :tags="filter.tags"
+                                    @removeTag="(tagIndex) => filters[filterIndex].tags.splice(tagIndex, 1)"
+                                >
                                     <template #titleText>
-                                        <p>Brand</p>
-                                    </template>
-                                    <template #titleSVGRight>
-                                        <ArrowRightSVG/>
-                                    </template>
-                                </TagBox>
-                            </button>
-                        </li>
-                        <li class="flex-col">
-                            <button class="style-reset" type="button">
-                                <TagBox :tags="[]">
-                                    <template #titleText>
-                                        <p>Category</p>
-                                    </template>
-                                    <template #titleSVGRight>
-                                        <ArrowRightSVG/>
-                                    </template>
-                                </TagBox>
-                            </button>
-                        </li>
-                        <li class="flex-col">
-                            <button class="style-reset" type="button">
-                                <TagBox :tags="[]">
-                                    <template #titleText>
-                                        <p>Tags</p>
+                                        <p>{{ filter.title }}</p>
                                     </template>
                                     <template #titleSVGRight>
                                         <ArrowRightSVG/>

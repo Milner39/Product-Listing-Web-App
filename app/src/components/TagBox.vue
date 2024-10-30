@@ -27,7 +27,7 @@ const emit = defineEmits<{
                 <slot name="titleSVGRight"/>
             </div>
         </div>
-        <ul v-if="tags?.length > 0" class="tag-box__tags style-reset">
+        <ul v-if="tags.length > 0" class="tag-box__tags style-reset">
             <li v-for="tag, index of tags" class="tag-box__tag">
                 <p class="tag__text">{{ tag }}</p>
                 <button class="tag__remove-button style-reset"
