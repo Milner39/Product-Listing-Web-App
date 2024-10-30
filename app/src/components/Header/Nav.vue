@@ -8,8 +8,8 @@ import CloseSVG from "~/assets/svgs/Close.vue"
 
 
 // Reactive state
-let dropdownOpen = ref(false) // Whether the dropdown is open
-let navMainCollapsed = ref(false) // Whether `nav` is collapsed
+let dropdownOpen = ref(false) // If the dropdown is open
+let navMainCollapsed = ref(false) // If `nav` is collapsed
 
 
 // Get a reference to the `nav` element
@@ -44,6 +44,12 @@ const setupResizeObserver = () => {
 }
 onMounted(() => setupResizeObserver())
 onBeforeUnmount(() => { if (resizeObserver) resizeObserver.disconnect() })
+
+/* TODO:
+    - Look at code from my other repos with similar navs
+    - Create proper dropdown
+    - Finish responsiveness
+*/
 
 </script>
 
