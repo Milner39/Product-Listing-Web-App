@@ -6,8 +6,8 @@ import CheckmarkSVG from "~/assets/svgs/Checkmark.vue"
 // #endregion Imports
 
 
-const checked: Ref<boolean> = ref(false)
-
+// Reactive state to control if checkbox is checked
+const checked = defineModel<boolean>("checked", { default: false })
 
 </script>
 
@@ -18,7 +18,3 @@ const checked: Ref<boolean> = ref(false)
         <CheckmarkSVG v-if="checked"/>
     </button>
 </template>
-
-<style lang="scss" scoped>
-
-</style>
