@@ -93,12 +93,6 @@ watch(filterOptionSearch, () => {
 })
 
 
-// Subroutine to remove a tag from a filter
-const filterTagBoxRemoveTag = (filterIndex: number, tag: string) => {
-    filters.value[filterIndex].selected.delete(tag)
-}
-
-
 
 // Get every unique option for each filter based on the keys of each product
 for (const product of getProductsData.value?.products || []) {
@@ -174,7 +168,7 @@ for (const product of getProductsData.value?.products || []) {
                                 </div>
                                 <TagBox 
                                     v-if="filter.selected.size > 0"
-                                    :tags="filter.selected"
+                                    v-model:tags="filter.selected"
                                 >
                                     <template #titleText>
                                         <p>{{ filter.title }}</p>
@@ -194,12 +188,12 @@ for (const product of getProductsData.value?.products || []) {
                             <p>Look for: <strong>{{ filters[selectedFilter].selected.size === 0 ? "All" : "" }}</strong></p>
                             <TagBox 
                                 v-if="filters[selectedFilter].selected.size > 0"
-                                :tags="filters[selectedFilter].selected"
+                                v-model:tags="filters[selectedFilter].selected"
                             />
                         </div>
                         <div class="content-panel__search-options">
                             <SearchBar placeholder="Search filter options..."
-                                :value="filterOptionSearch"
+                                v-model:value="filterOptionSearch"
                             />
                             <ul class="search-options__options style-reset"
                                 v-if="
