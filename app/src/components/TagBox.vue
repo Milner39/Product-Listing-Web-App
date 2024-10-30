@@ -11,7 +11,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-    removeTag: [value?: string, index?: number]
+    removeTag: [value: string, index: number]
 }>()
 
 </script>
@@ -31,7 +31,7 @@ const emit = defineEmits<{
             <li v-for="tag, index of tags" class="tag-box__tag">
                 <p class="tag__text">{{ tag }}</p>
                 <button class="tag__remove-button style-reset"
-                    @click="$emit('removeTag', tag)"
+                    @click="$emit('removeTag', tag, index)"
                 >
                     <CloseSVG/>
                 </button>

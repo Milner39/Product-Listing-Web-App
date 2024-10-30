@@ -101,7 +101,7 @@ const selectedFilter: Ref<number> = ref(0)
                             <button class="style-reset" type="button">
                                 <TagBox :tags="[...filter.selected]"
                                     @removeTag="(tag) => {
-                                        if (tag) filters[filterIndex].selected.delete(tag)
+                                        filters[filterIndex].selected.delete(tag)
                                     }"
                                 >
                                     <template #titleText>
