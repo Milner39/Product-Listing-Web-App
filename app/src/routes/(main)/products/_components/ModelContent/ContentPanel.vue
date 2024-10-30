@@ -12,6 +12,7 @@
 .content-panel {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 
     background-color: rgb(245, 245, 245);
 
@@ -21,7 +22,11 @@
 
     border-left: 1px solid gray;
 
-    
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
 }
 
 </style>

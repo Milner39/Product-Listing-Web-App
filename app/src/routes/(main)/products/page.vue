@@ -6,6 +6,7 @@ import ProductCard from "./_components/ProductCard.vue"
 import ListPanel from "./_components/ModelContent/ListPanel.vue"
 import ContentPanel from "./_components/ModelContent/ContentPanel.vue"
 import TagBox from "~/components/TagBox.vue"
+import SearchBar from "~/components/Inputs/SearchBar.vue"
 
 import FilterSVG from "~/assets/svgs/Filter.vue"
 import SortSVG from "~/assets/svgs/Sort.vue"
@@ -125,7 +126,7 @@ for (const product of getProductsData.value?.products || []) {
                         <template #title>
                             <h6>Filters</h6>
                         </template>
-                        <li class="flex-col filter-select"
+                        <li class="flex-col list-panel__filter-select"
                             v-for="filter, filterIndex in filters"
                         >
                             <button class="style-reset" type="button"
@@ -158,7 +159,7 @@ for (const product of getProductsData.value?.products || []) {
                         <template #title>
                             <h6>{{ filters[selectedFilter].title }}</h6>
                         </template>
-                        <div>
+                        <div class="content-panel__selected-filters">
                             <p>Look for: <strong>{{ filters[selectedFilter].selected.size === 0 ? "All" : "" }}</strong></p>
                             <TagBox 
                                 v-if="filters[selectedFilter].selected.size > 0"
@@ -168,6 +169,7 @@ for (const product of getProductsData.value?.products || []) {
                                 }"
                             />
                         </div>
+                        <SearchBar placeholder="Search filter options..."/>
                     </ContentPanel>
                 </div>
             </template>
@@ -218,12 +220,13 @@ for (const product of getProductsData.value?.products || []) {
     display: flex;
     gap: 1rem;
 
-    .filter-select {
+    .list-panel__filter-select {
         border: 1px solid gray;
         border-radius: 0.5em;
 
         .filter-select__title {
             display: flex;
+            align-items: center;
 
             > :not(.title__svg__wrapper) {
                 flex-grow: 1;
@@ -251,6 +254,14 @@ for (const product of getProductsData.value?.products || []) {
         &::v-deep .tag-box__wrapper {
             padding-inline: 0.5em;
             padding-bottom: 0.5em;
+        }
+    }
+
+    .content-panel__selected-filters {
+        &::v-deep > .tag-box__wrapper {
+            border: 1px solid gray;
+            border-radius: 0.5em;
+            padding: 0.5em
         }
     }
 }

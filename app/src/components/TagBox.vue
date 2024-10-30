@@ -55,6 +55,10 @@ const emit = defineEmits<{
 
             > .tag__text {
                 margin-left: 0.75em;
+
+                text-wrap: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             > .tag__remove-button {
