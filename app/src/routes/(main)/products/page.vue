@@ -137,10 +137,13 @@ for (const product of getProductsData.value?.products || []) {
             </button>
         </div>
         <Modal 
-            :open="filterModalOpen || sortModalOpen" 
-            @close="() => {
-                filterModalOpen = false
-                sortModalOpen = false
+            :open="filterModalOpen || sortModalOpen"
+            @update:open="(state) => {
+                // Need to use `@update` because :open is not bound to a single ref
+                if (state === false) {
+                    filterModalOpen = false
+                    sortModalOpen = false
+                }
             }"
         >
             <template #title>

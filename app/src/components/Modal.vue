@@ -6,54 +6,52 @@ import CloseSVG from "~/assets/svgs/Close.vue"
 // #endregion Imports
 
 
-const props = defineProps<{
-    open: boolean
-}>()
-
-const emit = defineEmits<{
-    close: []
-}>()
+// Reactive state to control if the modal is open or closed
+const open = defineModel("open", { default: false })
 
 
-// Define reference to `open` prop so its value can be changed in this component
-const openRef = ref(props.open)
+// Open the modal if it is mounted with `:open="true"`
+onMounted(() => { if (open.value === true) openModal() })
 
-// Open model if initial prop value is true
-onMounted(() => { if (props.open === true) open() })
+// Watcher to open modal
+watch(open, () => { if (open.value === true) openModal() })
 
-// Watch for changes of `open` prop
-watch(() => props.open, (newVal, prevVal) => {
-    openRef.value = newVal // update reference
 
-    // Open model if `open` prop value is updated
-    if (newVal === true) open() 
-})
-
-const open = () => {
+// Subroutine to open modal
+const openModal = () => {
+    // Prevent body scroll while preserving scroll distance
     const scrollY = window.scrollY
     document.body.style.position = "fixed"
     document.body.style.top = `-${scrollY}px`
+
+    open.value = true
 }
 
-const close = () => {
-    emit("close")
-
+// Subroutine to close modal
+const closeModal = () => {
+    // Enable body scroll while preserving scroll distance
     const scrollY = document.body.style.top
     document.body.style.position = ""
     document.body.style.top = ""
     window.scrollTo(0, parseInt(scrollY || "0") * -1)
+
+    open.value = false
 }
 </script>
 
 <template>
-    <dialog class="modal__wrapper style-reset" :open="openRef"
-        @click.self="close"
+    <!-- 
+        Clicking outside modal closes the modal
+        @click.self ensures only wrapper clicks cause the modal to close
+    -->
+    <dialog class="modal__wrapper style-reset" :open="open"
+        @click.self="closeModal"
     >
         <div class="modal">
             <div class="modal__header">
                 <slot name="title"/>
                 <button class="modal__close-button style-reset" type="button"
-                    @click="close"
+                    @click="closeModal"
                 >
                     <CloseSVG/>
                 </button>
