@@ -198,12 +198,25 @@ for (const product of getProductsData.value?.products || []) {
                                 v-model:value="filterOptionSearch"
                             />
                             <ul class="search-filters__filters style-reset"
-                                v-if="filterOptionSearch !== ''" 
+                                v-if="
+                                    filterOptionSearch !== '' &&
+                                    filterOptionSearchResults.length > 0
+                                " 
                             >
-                                <li v-for="option in filterOptionSearchResults">
+                                <li class="search-filters__filter"
+                                    v-for="option in filterOptionSearchResults"
+                                >
                                     {{ option }}
                                 </li>
                             </ul>
+                            <div class="search-filters__no-results"
+                                v-else-if="
+                                    filterOptionSearch !== '' &&
+                                    filterOptionSearchResults.length === 0
+                                "
+                            >
+                                <p class="bold">No Results</p>
+                            </div>
                         </div>
                     </ContentPanel>
                 </div>
@@ -309,9 +322,17 @@ for (const product of getProductsData.value?.products || []) {
             background-color: white;
             border-radius: 1.5rem;
 
+            padding: 1rem;
+
             .search-filters__filter {
 
             }
+        }
+
+        .search-filters__no-results {
+            @extend .search-filters__filters;
+            padding-block: 0.5rem;
+            text-align: center;
         }
     }
 }
