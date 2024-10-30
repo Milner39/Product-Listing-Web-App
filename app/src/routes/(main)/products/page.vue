@@ -15,6 +15,7 @@ import ArrowRightSVG from "~/assets/svgs/ArrowRight.vue"
 // #endregion Imports
 
 
+
 // Define subroutine to lazily get products data
 const getProducts = async () => {
     return await useLazyAsyncData(() => 
@@ -28,9 +29,11 @@ const getProducts = async () => {
 const { status: getProductsStatus, data: getProductsData } = await getProducts()
 
 
+
 // Reactive state to control if model is open and what content to display
 const filterModalOpen = ref(false)
 const sortModalOpen = ref(false)
+
 
 
 // Reactive state for filtering products
@@ -63,10 +66,14 @@ const filters: Ref<{
 // Reactive state to control what filter model content is displayed
 const selectedFilter: Ref<number> = ref(0)
 
+// Reactive state to control which filter options are displayed
+const filterSearch: Ref<string> = ref("")
+
 // Subroutine to remove a tag from a filter
 const filterTagBoxRemoveTag = (filterIndex: number, tag: string) => {
     filters.value[filterIndex].selected.delete(tag)
 }
+
 
 
 // Get every unique option for each filter based on the keys of each product
@@ -169,7 +176,16 @@ for (const product of getProductsData.value?.products || []) {
                                 }"
                             />
                         </div>
-                        <SearchBar placeholder="Search filter options..."/>
+                        <div class="content-panel__search-filters">
+                            <SearchBar placeholder="Search filter options..."
+                                v-model:value="filterSearch"
+                            />
+                            <ul class="search-filters__filters"
+                                v-if="filterSearch !== ''" 
+                            >
+
+                            </ul>
+                        </div>
                     </ContentPanel>
                 </div>
             </template>
