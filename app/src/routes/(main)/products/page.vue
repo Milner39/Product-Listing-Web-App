@@ -243,7 +243,7 @@ for (const product of getProductsData.value?.products || []) {
 
                 &::v-deep > svg {
                     min-width: revert;
-                    width: calc(var(--browser-fs-scale) * 1rem);
+                    width: calc(var(--browser-fs-scale) * 1.25rem);
                 }
             }
         }
