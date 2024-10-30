@@ -59,7 +59,7 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 		// Directory contains a "layout.vue" file
 
 		route.push({
-			path: routeURL.join(""),
+			path: "",
 			file: fileURLToPath(new URL("./layout.vue", dirURL)),
 			children: []
 		})
