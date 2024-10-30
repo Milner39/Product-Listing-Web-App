@@ -6,11 +6,11 @@ import CloseSVG from "~/assets/svgs/Close.vue"
 // #endregion Imports
 
 
-// Reactive state to control if the modal is open or closed
+// Reactive state to control modal is open or closed
 const open = defineModel<boolean>("open", { default: false })
 
 
-// Open the modal if it is mounted with `:open="true"`
+// Open modal if it is mounted with `:open="true"`
 onMounted(() => { if (open.value === true) openModal() })
 
 // Watcher to open modal
