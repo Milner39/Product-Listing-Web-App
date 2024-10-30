@@ -67,7 +67,24 @@ const filters: Ref<{
 const selectedFilter: Ref<number> = ref(0)
 
 // Reactive state to control which filter options are displayed
-const filterSearch: Ref<string> = ref("")
+const filterOptionSearch: Ref<string> = ref("")
+const filterOptionSearchResults: Ref<string[]> = ref([])
+
+// Watcher to update filter option search results
+watch(filterOptionSearch, () => {
+    // If search is empty
+    if (filterOptionSearch.value === "") {
+        // No results, otherwise all options are shown
+        filterOptionSearchResults.value = []
+        return
+    }
+
+    filterOptionSearchResults.value =
+        [...filters.value[selectedFilter.value].options].filter((option) => {
+            return option.toLocaleLowerCase().startsWith(filterOptionSearch.value.toLocaleLowerCase())
+        })
+})
+
 
 // Subroutine to remove a tag from a filter
 const filterTagBoxRemoveTag = (filterIndex: number, tag: string) => {
@@ -178,12 +195,14 @@ for (const product of getProductsData.value?.products || []) {
                         </div>
                         <div class="content-panel__search-filters">
                             <SearchBar placeholder="Search filter options..."
-                                v-model:value="filterSearch"
+                                v-model:value="filterOptionSearch"
                             />
-                            <ul class="search-filters__filters"
-                                v-if="filterSearch !== ''" 
+                            <ul class="search-filters__filters style-reset"
+                                v-if="filterOptionSearch !== ''" 
                             >
-
+                                <li v-for="option in filterOptionSearchResults">
+                                    {{ option }}
+                                </li>
                             </ul>
                         </div>
                     </ContentPanel>
@@ -278,6 +297,21 @@ for (const product of getProductsData.value?.products || []) {
             border: 1px solid gray;
             border-radius: 0.5em;
             padding: 0.5em
+        }
+    }
+
+    .content-panel__search-filters {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .search-filters__filters {
+            background-color: white;
+            border-radius: 1.5rem;
+
+            .search-filters__filter {
+
+            }
         }
     }
 }
