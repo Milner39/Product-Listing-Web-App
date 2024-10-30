@@ -351,7 +351,7 @@ for (const product of getProductsData.value?.products || []) {
                     }
 
                     &::v-deep > .input--checkbox {
-                        margin-right: 0.9rem
+                        margin-right: 0.85rem; // Weird alignment
                     }
                 }
             }
