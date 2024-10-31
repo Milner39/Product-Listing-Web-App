@@ -14,12 +14,12 @@ const getProduct = async () => {
 }
 
 // Get product data
-const { data: productData } = await getProduct()
+const { data: productData, status } = await getProduct()
 
 </script>
 
 <template>
-    <div class="product__wrapper">
+    <div v-if="status !== 'error'" class="product__wrapper">
         <div class="product">
             <div class="product__image__wrapper">
                 <img class="product__image" :src="productData?.thumbnail"/>
@@ -43,9 +43,17 @@ const { data: productData } = await getProduct()
             </div>
         </div>
     </div>
+    <div class="no-product">
+        <h5>Product with that ID does not exist</h5>
+    </div>
 </template>
 
 <style lang="scss" scoped>
+
+.no-product {
+    padding: 1rem;
+    text-align: center;
+}
 
 .product__wrapper {
     padding: 1rem;
@@ -62,6 +70,8 @@ const { data: productData } = await getProduct()
         > .product__image__wrapper {
             > .product__image {
                 width: 100%;
+
+                aspect-ratio: 1/1; // Until image loads
             }
         }
 

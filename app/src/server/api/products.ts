@@ -18,6 +18,16 @@ export default defineEventHandler(async (event) => {
         // Get single product from API
         const response = await fetch(`https://dummyjson.com/products/${requestQueryParams.id}`)
 
+        // If no product found
+        if (!response.ok) {
+            // Return a custom response
+            event.node.res.statusCode = 404
+            event.node.res.statusMessage = "Not Found"
+            event.node.res.end()
+            return
+        }
+
+
         // Get response data
         const responseData: Product = await response.json()
 
