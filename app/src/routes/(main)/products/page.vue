@@ -17,6 +17,8 @@ import ArrowRightSVG from "~/assets/svgs/ArrowRight.vue"
 
 
 
+
+
 // Define subroutine to lazily get products data
 const getProducts = async () => {
     return await useLazyAsyncData(() => 
@@ -31,9 +33,13 @@ const { status: getProductsStatus, data: getProductsData } = await getProducts()
 
 
 
+
+
 // Reactive state to control if model is open and what content to display
 const filterModalOpen = ref(false)
 const sortModalOpen = ref(false)
+
+
 
 
 
@@ -163,6 +169,34 @@ const filteredProducts = computed(() => {
     */
 })
 
+
+
+
+
+// Reactive state for sorting products
+const sort: Ref<{
+    options: {
+        title: string,
+        key: string
+    }[],
+    mode: "acc" | "dec"
+}> = ref({
+    options: [
+        {
+            title: "Price",
+            key: "price"
+        },
+        {
+            title: "Rating",
+            key: "rating"
+        },
+        {
+            title: "Stock",
+            key: "stock"
+        }
+    ],
+    mode: "acc"
+})
 </script>
 
 <template>
@@ -278,7 +312,18 @@ const filteredProducts = computed(() => {
             </div>
         </template>
         <template v-if="sortModalOpen">
-
+            <div class="sort-modal__content">
+                <ListPanel>
+                    <template #title>
+                        <h6>Sort by</h6>
+                    </template>
+                    <li
+                        v-for="option, optionIndex in sort.options"
+                    >
+                        {{ option.title }}
+                    </li>
+                </ListPanel>
+            </div>
         </template>
     </Modal>
     <ul class="grid--cards style-reset"
