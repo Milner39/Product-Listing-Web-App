@@ -133,139 +133,143 @@ for (const product of getProductsData.value?.products || []) {
 </script>
 
 <template>
-    <template v-if="
-        getProductsStatus === 'pending' || 
-        (getProductsData && getProductsData.products.length > 0)
-    ">
-        <div class="filter-sort-buttons__container">
-            <button class="filter-sort-buttons__button button--dot style-reset" type="button"
-                @click="() => filterModalOpen = true"
-            >
-                <FilterSVG/>
-            </button>
-            <button class="filter-sort-buttons__button button--dot style-reset" type="button"
-                @click="() => sortModalOpen = true"
-            >
-                <SortSVG/>
-            </button>
-        </div>
-        <Modal 
-            :open="filterModalOpen || sortModalOpen"
-            @update:open="(state) => {
-                // Need to use `@update` because :open is not bound to a single ref
-                if (state === false) {
-                    filterModalOpen = false
-                    sortModalOpen = false
-                }
-            }"
+    <div class="filter-sort-buttons__container">
+        <button class="filter-sort-buttons__button button--dot style-reset" type="button"
+            @click="() => filterModalOpen = true"
         >
-            <template #title>
-                <h5 v-if="filterModalOpen">
-                    Apply Filters
-                </h5>
-                <h5 v-if="sortModalOpen">
-                    Apply Sort Rules
-                </h5>
-            </template>
-            <template v-if="filterModalOpen">
-                <div class="filter-modal__content">
-                    <ListPanel>
-                        <template #title>
-                            <h6>Filters</h6>
-                        </template>
-                        <li class="flex-col list-panel__filter-select"
-                            v-for="filter, filterIndex in filters"
+            <FilterSVG/>
+        </button>
+        <button class="filter-sort-buttons__button button--dot style-reset" type="button"
+            @click="() => sortModalOpen = true"
+        >
+            <SortSVG/>
+        </button>
+    </div>
+    <Modal 
+        :open="filterModalOpen || sortModalOpen"
+        @update:open="(state) => {
+            // Need to use `@update` because :open is not bound to a single ref
+            if (state === false) {
+                filterModalOpen = false
+                sortModalOpen = false
+            }
+        }"
+    >
+        <template #title>
+            <h5 v-if="filterModalOpen">
+                Apply Filters
+            </h5>
+            <h5 v-if="sortModalOpen">
+                Apply Sort Rules
+            </h5>
+        </template>
+        <template v-if="filterModalOpen">
+            <div class="filter-modal__content">
+                <ListPanel>
+                    <template #title>
+                        <h6>Filters</h6>
+                    </template>
+                    <li class="flex-col list-panel__filter-select"
+                        v-for="filter, filterIndex in filters"
+                    >
+                        <button class="style-reset" type="button"
+                            @click="() => { selectedFilter = filterIndex }"
                         >
-                            <button class="style-reset" type="button"
-                                @click="() => { selectedFilter = filterIndex }"
-                            >
-                                <div class="filter-select__title">
-                                    <p class="title__text">{{ filter.title }}</p>
-                                    <div class="title__svg__wrapper">
-                                        <ArrowRightSVG/>
-                                    </div>
+                            <div class="filter-select__title">
+                                <p class="title__text">{{ filter.title }}</p>
+                                <div class="title__svg__wrapper">
+                                    <ArrowRightSVG/>
                                 </div>
-                                <TagBox 
-                                    v-if="filter.selected.size > 0"
-                                    v-model:tags="filter.selected"
-                                >
-                                    <template #titleText>
-                                        <p>{{ filter.title }}</p>
-                                    </template>
-                                    <template #titleSVGRight>
-                                        <ArrowRightSVG/>
-                                    </template>
-                                </TagBox>
-                            </button>
-                        </li>
-                    </ListPanel>
-                    <ContentPanel>
-                        <template #title>
-                            <h6>{{ filters[selectedFilter].title }}</h6>
-                        </template>
-                        <div class="content-panel__selected-options">
-                            <p>Look for: <strong>{{ filters[selectedFilter].selected.size === 0 ? "All" : "" }}</strong></p>
-                            <TagBox 
-                                v-if="filters[selectedFilter].selected.size > 0"
-                                v-model:tags="filters[selectedFilter].selected"
-                            />
-                        </div>
-                        <div class="content-panel__search-options">
-                            <SearchBar 
-                                placeholder="Search filter options..." 
-                                v-model:value="filterOptionSearch"
-                            />
-                            <ul class="search-options__options style-reset"
-                                v-if="
-                                    filterOptionSearch !== '' &&
-                                    filterOptionSearchResults.length > 0
-                                " 
-                            >
-                                <li class="search-options__option"
-                                    v-for="option in filterOptionSearchResults"
-                                >
-                                    <button class="option__button style-reset" type="button">
-                                        <p class="option__button__text">{{ option }}</p>
-                                        <Checkbox/>
-                                    </button>
-                                </li>
-                            </ul>
-                            <div class="search-options__no-results"
-                                v-else-if="
-                                    filterOptionSearch !== '' &&
-                                    filterOptionSearchResults.length === 0
-                                "
-                            >
-                                <p class="bold">No Results</p>
                             </div>
+                            <TagBox 
+                                v-if="filter.selected.size > 0"
+                                v-model:tags="filter.selected"
+                            >
+                                <template #titleText>
+                                    <p>{{ filter.title }}</p>
+                                </template>
+                                <template #titleSVGRight>
+                                    <ArrowRightSVG/>
+                                </template>
+                            </TagBox>
+                        </button>
+                    </li>
+                </ListPanel>
+                <ContentPanel>
+                    <template #title>
+                        <h6>{{ filters[selectedFilter].title }}</h6>
+                    </template>
+                    <div class="content-panel__selected-options">
+                        <p>Look for: <strong>{{ filters[selectedFilter].selected.size === 0 ? "All" : "" }}</strong></p>
+                        <TagBox 
+                            v-if="filters[selectedFilter].selected.size > 0"
+                            v-model:tags="filters[selectedFilter].selected"
+                        />
+                    </div>
+                    <div class="content-panel__search-options">
+                        <SearchBar 
+                            placeholder="Search filter options..." 
+                            v-model:value="filterOptionSearch"
+                        />
+                        <ul class="search-options__options style-reset"
+                            v-if="
+                                filterOptionSearch !== '' &&
+                                filterOptionSearchResults.length > 0
+                            " 
+                        >
+                            <li class="search-options__option"
+                                v-for="option in filterOptionSearchResults"
+                            >
+                                <button class="option__button style-reset" type="button">
+                                    <p class="option__button__text">{{ option }}</p>
+                                    <Checkbox/>
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="search-options__no-results"
+                            v-else-if="
+                                filterOptionSearch !== '' &&
+                                filterOptionSearchResults.length === 0
+                            "
+                        >
+                            <p class="bold">No Results</p>
                         </div>
-                    </ContentPanel>
-                </div>
-            </template>
-            <template v-if="sortModalOpen">
+                    </div>
+                </ContentPanel>
+            </div>
+        </template>
+        <template v-if="sortModalOpen">
 
-            </template>
-        </Modal>
-        <ul class="grid--cards style-reset">
-            <li class="product" 
-                v-if="
-                    getProductsStatus === 'success' &&
-                    getProductsData?.products
-                " 
-                v-for="product in getProductsData.products"
-            >
-                <!-- @vue-skip: Serialisation type mismatch -->
-                <ProductCard :key="product.id" :product="product"/>
-            </li>
-            <li class="product" 
-                v-else
-                v-for="_ in Array(32)"
-            >
-                <ProductCard :loading="true"/>
-            </li>
-        </ul>
-    </template>
-    <h6 class="no-results" v-else>No Products Found</h6>
+        </template>
+    </Modal>
+    <ul class="grid--cards style-reset"
+        v-if="
+            getProductsStatus === 'pending' ||
+            getProductsData?.products?.length > 0
+        "
+    >
+        <li class="product" 
+            v-if="
+                getProductsStatus === 'success' &&
+                getProductsData?.products?.length > 0
+            " 
+            v-for="product in getProductsData.products"
+        >
+            <!-- @vue-skip: Serialisation type mismatch -->
+            <ProductCard :key="product.id" :product="product"/>
+        </li>
+        <li class="product" 
+            v-else
+            v-for="_ in Array(32)"
+        >
+            <ProductCard :loading="true"/>
+        </li>
+    </ul>
+    <h6 class="no-results" 
+        v-else
+    >
+        No Products Found
+    </h6>
 </template>
 
 <style lang="scss" scoped>
