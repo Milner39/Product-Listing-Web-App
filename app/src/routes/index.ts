@@ -100,7 +100,7 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 				
 				// Add route, default to root layout if "page@.vue" file
 				groups[layoutGroup || "none"].push({
-					path: routeURL.join(""),
+					path: routeURL.join("/"),
 					file: fileURLToPath(new URL(`./${fileOrDir}`, dirURL))
 				})
 			} 
@@ -128,49 +128,60 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 		// TODO: Implement dynamic routes
 
 
-		// CONTINUE DOCUMENTING HERE
 		// (...) folder
 		else if (fileOrDir.match(layoutGroupDirRegex)) {
-			// File is a layout group folder
+			// Dir is a layout group folder
 			
 			if (layoutThisRoute) {
+
+				// Add route
 				// @ts-ignore: Object is possibly 'undefined'
 				const childrenCount = route[route.length -1].children.push({
 					path: "",
 					children: []
 				})
 
+				// Add layout group
 				// @ts-ignore: Object is possibly 'undefined'
 				groups[fileOrDir] = route[route.length -1].children[childrenCount -1].children || []
 			}
 			else {
+
+				// Add route
 				route.push({
 					path: "",
 					children: []
 				})
 
+				// Add layout group
 				groups[fileOrDir] = route[route.length -1].children || []
 			}
 
+			// Recurse
 			getRoutes(
 				new URL(`./${fileOrDir}/`, dirURL),
 				groups[fileOrDir]
 			)
 		}
 
+
 		// Regular folder
 		else if (fileOrDir.match(regularDirRegex)) {
-			// File is a regular folder
+			// Dir is a regular folder
 
+			// Add route path
 			routeURL.push(fileOrDir)
 
+
 			if (layoutThisRoute) {
+				// Add route
 				route[route.length -1].children?.push({
 					path: `${fileOrDir}`,
 					children: []
 				})
 			}
 			else {
+				// Add route
 				route.push({
 					path: `${fileOrDir}`,
 					children: []
@@ -179,6 +190,7 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 
 			const lastItemInRoute = route[route.length -1]
 			
+			// Recurse
 			getRoutes(
 				new URL(`./${fileOrDir}/`, dirURL), 
 				layoutThisRoute ? 
@@ -187,13 +199,17 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 					lastItemInRoute.children || []
 			)
 
+			// Remove route path
 			routeURL.pop()
 		}
 	}
 }
 
-const routesPath = new URL("./", import.meta.url)
+// Get current directory
+const routesDirURL = new URL("./", import.meta.url)
 
-getRoutes(routesPath, routes[0].children)
+// Get routes
+getRoutes(routesDirURL, routes[0].children)
 
+// Export routes
 export default routes
