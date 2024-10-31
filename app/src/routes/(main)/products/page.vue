@@ -47,19 +47,19 @@ const filters: Ref<{
     {
         title: "Brand",
         key: "brand",
-        selected: new Set(["Google", "Apple", "Sony"]),
+        selected: new Set(),
         options: new Set()
     },
     {
         title: "Category",
         key: "category",
-        selected: new Set(["Tech"]),
+        selected: new Set(),
         options: new Set()
     },
     {
         title: "Tags",
         key: "tags",
-        selected: new Set(["Phone", "Smart Devices"]),
+        selected: new Set(),
         options: new Set()
     }
 ])
@@ -222,7 +222,13 @@ for (const product of getProductsData.value?.products || []) {
                             >
                                 <button class="option__button style-reset" type="button">
                                     <p class="option__button__text">{{ option }}</p>
-                                    <Checkbox/>
+                                    <Checkbox 
+                                        :checked="filters[selectedFilter].selected.has(option)"
+                                        @update:checked="(checked) => {
+                                            if (!checked) filters[selectedFilter].selected.delete(option)
+                                            else filters[selectedFilter].selected.add(option)
+                                        }"
+                                    />
                                 </button>
                             </li>
                         </ul>
