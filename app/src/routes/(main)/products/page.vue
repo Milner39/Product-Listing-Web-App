@@ -124,6 +124,39 @@ for (const product of getProductsData.value?.products || []) {
 }
 
 
+// Computed state for filtered products
+const filteredProducts = computed(() => {
+
+    // Get every product key to filter by
+    const filteredKeys = filters.value.map(filter => filter.key)
+
+    /*
+        Get only the products that filtered keys contain one or more
+        of the filter options
+    */
+    // @ts-ignore: Parameter 'product' implicitly has an 'any' type.
+    return getProductsData?.value.products.filter(product =>
+
+        // For each filtered key
+        filteredKeys.every((key, index) => {
+            // Get filter for key
+            const filter = filters.value[index]
+
+            // If no filter options selected
+            if (filter.selected.size < 1) return true
+
+            // If value of key in object is Array
+            else if (Array.isArray(product[key])) {
+
+                // Check any of the values in the array are one of the selected filter options
+                for (const val of product[key]) if (filter.selected.has(val)) return true
+            }
+            
+            // Check the value of the key is one of the selected filter options
+            else if (filter.selected.has(product[key])) return true
+        })
+    )
+})
 
 /* TODO:
     - Improve readability of documentation
@@ -259,7 +292,7 @@ for (const product of getProductsData.value?.products || []) {
                 getProductsStatus === 'success' &&
                 getProductsData?.products?.length > 0
             " 
-            v-for="product in getProductsData.products"
+            v-for="product in filteredProducts"
         >
             <!-- @vue-skip: Serialisation type mismatch -->
             <ProductCard :key="product.id" :product="product"/>
