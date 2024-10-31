@@ -43,7 +43,7 @@ const { data: productData, status } = await getProduct()
             </div>
         </div>
     </div>
-    <div class="no-product">
+    <div v-else class="no-product">
         <h5>Product with that ID does not exist</h5>
     </div>
 </template>
