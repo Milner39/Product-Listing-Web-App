@@ -10,7 +10,7 @@ import type { Product } from "types/product.d.ts"
 // Define event handler
 export default defineEventHandler(async (event) => {
     // Get products from API
-    const response = await fetch("https://dummyjson.com/products")
+    const response = await fetch("https://dummyjson.com/products?limit=0")
 
     // Expected response data structure
     type ResponseData = {
