@@ -77,7 +77,7 @@ const tagsDelete = computed(() => (value: string, index: number) => {
                 padding: 0.5em;
                 margin-right: 0.25em;
 
-                &::v-deep > svg {
+                &:deep(> svg) {
                     min-width: revert;
                     height: 100%;
                 }

@@ -113,7 +113,7 @@ const closeModal = () => {
             align-items: center;
             aspect-ratio: 1/1;
 
-            &::v-deep > svg {
+            &:deep(> svg) {
                 padding: 0.45rem;
             }
         }

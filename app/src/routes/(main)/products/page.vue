@@ -167,12 +167,12 @@ const filteredProducts = computed(() => {
 
 <template>
     <div class="filter-sort-buttons__container">
-        <button class="filter-sort-buttons__button button--dot style-reset" type="button"
+        <button class="filter-sort-buttons__button button--dot style-reset" type="button" title="Filter"
             @click="() => filterModalOpen = true"
         >
             <FilterSVG/>
         </button>
-        <button class="filter-sort-buttons__button button--dot style-reset" type="button"
+        <button class="filter-sort-buttons__button button--dot style-reset" type="button" title="Sort"
             @click="() => sortModalOpen = true"
         >
             <SortSVG/>
@@ -325,7 +325,7 @@ const filteredProducts = computed(() => {
     gap: 1rem;
 
     > .filter-sort-buttons__button {
-        &::v-deep > svg {
+        &:deep(> svg) {
             min-width: revert;
             width: calc(var(--browser-fs-scale) * 1.75rem);
         }
@@ -360,21 +360,21 @@ const filteredProducts = computed(() => {
 
                 padding: 0.5em;
 
-                &::v-deep > svg {
+                &:deep(> svg) {
                     min-width: revert;
                     width: calc(var(--browser-fs-scale) * 1.25rem);
                 }
             }
         }
 
-        &::v-deep .tag-box__wrapper {
+        &:deep(.tag-box__wrapper) {
             padding-inline: 0.5em;
             padding-bottom: 0.5em;
         }
     }
 
     .content-panel__selected-options {
-        &::v-deep .tag-box__wrapper {
+        &:deep(.tag-box__wrapper) {
             border: 1px solid gray;
             border-radius: 0.5em;
             padding: 0.5em
@@ -408,7 +408,7 @@ const filteredProducts = computed(() => {
                         margin-right: auto
                     }
 
-                    &::v-deep > .input--checkbox {
+                    &:deep(> .input--checkbox) {
                         margin-right: 0.85rem; // Weird alignment
                     }
                 }
