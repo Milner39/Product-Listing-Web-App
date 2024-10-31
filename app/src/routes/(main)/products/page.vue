@@ -486,7 +486,7 @@ const sort: Ref<{
     border-radius: 1rem;
     overflow: hidden;
 
-    transition: scale ease-out 300ms;
+    transition: scale ease-in-out 300ms;
 }
 
 .product:has(~ .product:hover) {
