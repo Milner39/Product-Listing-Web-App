@@ -128,13 +128,9 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 		else if (fileOrDir.match(dynamicRouteDirRegex)) {
 			// Dir is a dynamic route folder
 
-			/* 
-				Format the folder name into a vue dynamic route.
-				Only do this step in case we want to change the
-				syntax for a dynamic route folder name.
-				E.g. {id} instead of [id]
-			*/
-			const dynamicPath = `[${fileOrDir.substring(1, fileOrDir.length -1)}]`
+			
+			// Format the folder name into a vue dynamic route.
+			const dynamicPath = `:${fileOrDir.substring(1, fileOrDir.length -1)}`
 
 			// Add route path
 			routeURL.push(dynamicPath)
