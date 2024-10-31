@@ -100,7 +100,6 @@ const { data: productData, status } = await getProduct()
 
         > * {
             position: relative;
-            z-index: -1;
         }
 
         > * + *::before {
