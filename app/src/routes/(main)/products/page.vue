@@ -156,12 +156,12 @@ const filteredProducts = computed(() => {
             else if (filter.selected.has(product[key])) return true
         })
     )
+    /* Performance:
+        O(nk)
+        - n: number of products
+        - k: number of filters
+    */
 })
-
-/* TODO:
-    - Improve readability of documentation
-    - Add better explanations of code blocks
-*/
 
 </script>
 
