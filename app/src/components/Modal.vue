@@ -84,6 +84,7 @@ const closeModal = () => {
 
 .modal {
     max-height: 100%;
+    min-height: 75%;
     width: min(96ch, 100%);
 
     overflow: hidden;
@@ -122,6 +123,10 @@ const closeModal = () => {
                 padding: 0.45rem;
             }
         }
+    }
+
+    > :not(.modal__header) {
+        flex-grow: 1;
     }
 
     > * {
