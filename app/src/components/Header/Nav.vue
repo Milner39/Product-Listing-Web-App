@@ -25,11 +25,15 @@ const onResize = () => {
             parseFloat(navStyles.paddingRight.slice(0, -2))
 
         
+        // Elements that are only shown when nav is collapsed
         const onlyNavCollapsedElements = nav.value.querySelectorAll(".nav--collapsed")
+        // Elements that are only shown when nav is expanded
         const onlyNavExpandedElements = nav.value.querySelectorAll(".nav--expanded")
-       
 
-        
+        // Calculate width of nav links
+        // Calculate available space 
+        // If width > space: collapse
+        // else: expand
     }
 }
 
@@ -46,7 +50,7 @@ onMounted(() => setupResizeObserver())
 onBeforeUnmount(() => { if (resizeObserver) resizeObserver.disconnect() })
 
 /* TODO:
-    - Look at code from my other repos with similar navs
+    - Look at code from my other repos with similar navs (dev branch of OhMe)
     - Create proper dropdown
     - Finish responsiveness
 */
