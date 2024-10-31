@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
     // Get products from API
     const response = await fetch("https://dummyjson.com/products")
 
+    // Expected response data structure
     type ResponseData = {
         limit: number,
         products: Product[],
