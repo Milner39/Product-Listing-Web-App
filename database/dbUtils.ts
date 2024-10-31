@@ -4,7 +4,7 @@ import { drizzle } from "drizzle-orm/libsql"
 import { createClient } from "@libsql/client"
 import { tables } from "./schemas"
 
-// #endregion
+// #endregion Imports
 
 
 // #region Utils
@@ -14,7 +14,7 @@ const createDbClient = (db = null) => {
         { schema: { ...tables } }
     )
 }
-// #endregion
+// #endregion Utils
 
 
 
@@ -30,4 +30,4 @@ const dbUtils = {
 export default dbUtils
 
 export { createDbClient, dbClient, tables }
-// #endregion
+// #endregion Exports
