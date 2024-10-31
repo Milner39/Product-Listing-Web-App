@@ -68,8 +68,8 @@ const closeModal = () => {
     top: 0;
     left: 0;
 
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100dvh;
 
     overflow: hidden;
 
@@ -83,6 +83,9 @@ const closeModal = () => {
 }
 
 .modal {
+    max-height: 100%;
+    overflow: hidden;
+
     --padding: 1rem;
 
     display: flex;
