@@ -73,21 +73,24 @@ const filterOptionSearchResults: Ref<string[]> = ref([])
 
 
 // Watcher to reset search when selected filter changes
-watch(selectedFilter, () => {
-    filterOptionSearch.value = ""
-})
+watch(selectedFilter, () => { filterOptionSearch.value = "" })
 
-// Watcher to update filter option search results
+// Watcher to update search results when filter option search changes
 watch(filterOptionSearch, () => {
-    // If search is empty
+    
+    /*
+        If search is empty, no results
+        Otherwise all options would be show since all strings start with ""
+    */
     if (filterOptionSearch.value === "") {
-        // No results, otherwise all options are shown
         filterOptionSearchResults.value = []
         return
     }
 
+    // Iterate over options returning an Array of options that start with search value
     filterOptionSearchResults.value =
         [...filters.value[selectedFilter.value].options].filter((option) =>
+            // Not case sensitive
             option.toLocaleLowerCase().startsWith(filterOptionSearch.value.toLocaleLowerCase())
         )
 })
@@ -100,16 +103,32 @@ for (const product of getProductsData.value?.products || []) {
         // @ts-ignore: Serialisation type mismatch
         const productKeyVal = product[filter.key] 
 
+        // Handle different data types
         if (typeof productKeyVal === "undefined") continue
 
-        if (Array.isArray(productKeyVal)) {
-            productKeyVal.forEach((val) => filter.options.add(val))
+        else if (Array.isArray(productKeyVal)) {
+            for (const val in productKeyVal) filter.options.add(val)
         } 
         else {
             filter.options.add(productKeyVal)
         }
+
+
+        /*
+            A Set is used for filter options so we don't need to check the 
+            options for duplicate values since Sets only contain unique values
+            and `Set.prototype.add(val)` will just do nothing if the set already
+            contains `val`
+        */
     }
 }
+
+
+
+/* TODO:
+    - Improve readability of documentation
+    - Add better explanations of code blocks
+*/
 
 </script>
 
