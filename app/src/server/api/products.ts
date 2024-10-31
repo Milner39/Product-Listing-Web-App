@@ -1,6 +1,6 @@
 // #region Imports
 
-import { defineEventHandler } from "h3" // Nuxt compiler would not auto import
+import { defineEventHandler, readBody } from "h3" // Nuxt compiler would not auto import
 
 import type { Product } from "types/product.d.ts"
 
@@ -9,7 +9,24 @@ import type { Product } from "types/product.d.ts"
 
 // Define event handler
 export default defineEventHandler(async (event) => {
-    // Get products from API
+    // Get request body
+    const requestQueryParams = getQuery(event)
+
+    
+    if (typeof requestQueryParams.id !== "undefined" &&  requestQueryParams.id !== null) {
+
+        // Get single product from API
+        const response = await fetch(`https://dummyjson.com/products/${requestQueryParams.id}`)
+
+        // Get response data
+        const responseData: Product = await response.json()
+
+        // Return response
+        return responseData
+    }
+    
+    
+    // Get multiple products from API
     const response = await fetch("https://dummyjson.com/products?limit=0")
 
     // Expected response data structure
