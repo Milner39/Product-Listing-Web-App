@@ -381,6 +381,13 @@ const sort: Ref<{
     display: flex;
     gap: 1rem;
 
+    .list-panel {
+        flex-grow: 1;
+    }
+    .content-panel {
+        flex-grow: 1.5;
+    }
+
     .list-panel__filter-select {
         border: 1px solid gray;
         border-radius: 0.5em;

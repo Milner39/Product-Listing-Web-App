@@ -84,6 +84,8 @@ const closeModal = () => {
 
 .modal {
     max-height: 100%;
+    width: min(96ch, 100%);
+
     overflow: hidden;
 
     --padding: 1rem;
