@@ -107,7 +107,7 @@ for (const product of getProductsData.value?.products || []) {
         if (typeof productKeyVal === "undefined") continue
 
         else if (Array.isArray(productKeyVal)) {
-            for (const val in productKeyVal) filter.options.add(val)
+            for (const val of productKeyVal) filter.options.add(val)
         } 
         else {
             filter.options.add(productKeyVal)
