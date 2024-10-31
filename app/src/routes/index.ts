@@ -22,68 +22,92 @@ const groups: {[key: string]: NuxtPage[]} = {
 	none: routes[0].children
 }
 
-// 
-const routeURL: string[] = [] // to keep track of the path matches
+/* 
+	Array containing each part of a route, e.g: ["/products","/[id]"]
+	To keep track of the path matches during recursion
+*/
+const routeURL: string[] = []
 
 
-
-const pageVueRegex = /^page(@(\w+))?\.vue$/ // "page.vue", "page@.vue", "page@main.vue"
+// Regexs
+const pageVueRegex = /^page(@(\w+))?\.vue$/ // "page.vue", "page@.vue", "page@*.vue"
 // [...] folder
 const layoutGroupDirRegex = /^\([^.\n\[\]]+[^.\n[\]]\)$/ // (...) folder
-const regularDirRegex = /^(?![_\[(])[^.\n]+[^)\].]$/ // regular folder
+const regularDirRegex = /^(?![_\[(])[^.\n]+[^)\].]$/ // regular folder (ignore "_folderName")
 
 
-
+// Subroutine to get the names of all the files and directories in a directory
 const getFileAndDirNamesInDirectory = (path: string) => {
 	return fs.readdirSync(path)
 }
 
 
+// Main recursive subroutine
 const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
-	const filesAndDirs = getFileAndDirNamesInDirectory(fileURLToPath(dirURL))
 
 	/* The only relevant files in the routes dir are:
 		- layout.vue: defines a layout so `children` list must be created
-		- page.vue: defines a page, could be "page@main" so be careful handling layouts
+		- page.vue: defines a page, could be "page@main" so be careful handling layout groups
 		- normal folders: defines a route
 		- [...] folder: defines a dynamic route
 		- (...) folders: defines a layout group
 		- (page/layout).(server.ts/ts) files coming later
 	*/
+	const filesAndDirs = getFileAndDirNamesInDirectory(fileURLToPath(dirURL))
+
 
 
 	// layout.vue must be checked first since it affects how "page.vue" files are handled
-	let layoutThisRoute = false
+
+	// Keeps track of if there was a layout this route
+	let layoutThisRoute = false 
+
+	// Get index of layout file so it can be removed from Array
 	const layoutIndex = filesAndDirs.indexOf("layout.vue")
+
 	if (layoutIndex > -1) {
 		// Directory contains a "layout.vue" file
 
+		// Add route
 		route.push({
 			path: "",
 			file: fileURLToPath(new URL("./layout.vue", dirURL)),
 			children: []
 		})
 
-		filesAndDirs.splice(layoutIndex, 1) // Remove from files array so its not iterated over
 		layoutThisRoute = true
+		
+		// Remove from files Array so its not iterated over
+		filesAndDirs.splice(layoutIndex, 1)
 	}
 
+
+
+	// Iterate over rest of files and directories
 	for (const fileOrDir of filesAndDirs) {
-		// "page.vue", "page@.vue", "page@main.vue"
+
+		// "page.vue", "page@.vue", "page@*.vue"
 		const pageVueRegexResult = fileOrDir.match(pageVueRegex)
 		if (pageVueRegexResult) {
-			// File is a "page.vue", etc. file
-			if (pageVueRegexResult[1]) {
-				// File contains "@"
+			// File is a "page.vue", "page@.vue", "page@*.vue" file
 
-				const layoutGroup = pageVueRegexResult[2] // The part between "@" and ".vue"
+			if (pageVueRegexResult[1]) {
+				// File is a "page@.vue", "page@*.vue" file
+				// TODO: TEST THIS WORKS
+
+				// Get the part between "@" and ".vue"
+				const layoutGroup = pageVueRegexResult[2]
 				
+				// Add route, default to root layout if "page@.vue" file
 				groups[layoutGroup || "none"].push({
 					path: routeURL.join(""),
 					file: fileURLToPath(new URL(`./${fileOrDir}`, dirURL))
 				})
 			} 
+
+			// File is a "page.vue" file
 			else if (layoutThisRoute) {
+				// Add route
 				// @ts-ignore: Object is possibly 'undefined'
 				route[route.length -1].children.push({
 					path: "",
@@ -91,6 +115,7 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 				})
 			} 
 			else {
+				// Add route
 				route.push({
 					path: "",
 					file: fileURLToPath(new URL(`./${fileOrDir}`, dirURL))
@@ -98,8 +123,12 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 			}
 		}
 
-		// [...] folder
 
+		// [...] folder
+		// TODO: Implement dynamic routes
+
+
+		// CONTINUE DOCUMENTING HERE
 		// (...) folder
 		else if (fileOrDir.match(layoutGroupDirRegex)) {
 			// File is a layout group folder
