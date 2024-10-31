@@ -31,7 +31,7 @@ const routeURL: string[] = []
 
 // Regexs
 const pageVueRegex = /^page(@(\w+))?\.vue$/ // "page.vue", "page@.vue", "page@*.vue"
-// [...] folder
+const dynamicRouteDirRegex = /^\[[^.\n\[\]]+[^.\n[\]]\]$/ // [...] folder
 const layoutGroupDirRegex = /^\([^.\n\[\]]+[^.\n[\]]\)$/ // (...) folder
 const regularDirRegex = /^(?![_\[(])[^.\n]+[^)\].]$/ // regular folder (ignore "_folderName")
 
@@ -125,7 +125,50 @@ const getRoutes = (dirURL: URL, route: NuxtPage[]) => {
 
 
 		// [...] folder
-		// TODO: Implement dynamic routes
+		else if (fileOrDir.match(dynamicRouteDirRegex)) {
+			// Dir is a dynamic route folder
+
+			/* 
+				Format the folder name into a vue dynamic route.
+				Only do this step in case we want to change the
+				syntax for a dynamic route folder name.
+				E.g. {id} instead of [id]
+			*/
+			const dynamicPath = `[${fileOrDir.substring(1, fileOrDir.length -1)}]`
+
+			// Add route path
+			routeURL.push(dynamicPath)
+
+
+			if (layoutThisRoute) {
+				// Add route
+				route[route.length -1].children?.push({
+					path: `${dynamicPath}`,
+					children: []
+				})
+			}
+			else {
+				// Add route
+				route.push({
+					path: `${dynamicPath}`,
+					children: []
+				})
+			}
+
+			const lastItemInRoute = route[route.length -1]
+			
+			// Recurse
+			getRoutes(
+				new URL(`./${fileOrDir}/`, dirURL), 
+				layoutThisRoute ? 
+					// @ts-ignore: Object is possibly 'undefined'
+					lastItemInRoute.children[lastItemInRoute.children.length -1].children || [] :
+					lastItemInRoute.children || []
+			)
+
+			// Remove route path
+			routeURL.pop()
+		}
 
 
 		// (...) folder
