@@ -478,12 +478,25 @@ const sort: Ref<{
     padding: 1rem
 }
 
+
+
 .product {
     background-color: rgb(245, 245, 245);
 
     border-radius: 1rem;
     overflow: hidden;
+
+    transition: scale ease-out 300ms;
 }
+
+.product:has(~ .product:hover) {
+    scale: 0.9875;
+}
+
+.product:hover ~ .product {
+    scale: 0.975;
+}
+
 
 .no-results {
     padding: 1rem;
