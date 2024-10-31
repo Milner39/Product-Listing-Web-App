@@ -1,6 +1,10 @@
 # Nuxt outputs
 nuxt.temp
 
+# database
+.db
+drizzle.temp
+
 # Node dependencies
 node_modules
 

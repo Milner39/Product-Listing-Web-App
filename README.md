@@ -4,10 +4,17 @@ Configure a `/.env` file using the `/.env.example` file as a guide
 
 Install dependencies with `npm install`
 
+Create a database:
+
+```bash
+npm run db:generate
+npm run db:migrate
+```
+
 Start a development server:
 
 ```bash
-npm run dev
+npm run app:dev
 ```
 
 
@@ -16,7 +23,7 @@ npm run dev
 Run test scripts:
 
 ```bash
-npm run test
+npm run app:test
 ```
 
 
@@ -25,7 +32,7 @@ npm run test
 Create a production build:
 
 ```bash
-npm run build
+npm run app:build
 ```
 
-You can preview the production build with `npm run preview`
+You can preview the production build with `npm run app:preview`
