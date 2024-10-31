@@ -294,8 +294,12 @@ const filteredProducts = computed(() => {
             " 
             v-for="product in filteredProducts"
         >
-            <!-- @vue-skip: Serialisation type mismatch -->
-            <ProductCard :key="product.id" :product="product"/>
+            <NuxtLink class="style-reset"
+                :to="`/products/${product.id}`"
+            >
+                <!-- @vue-skip: Serialisation type mismatch -->
+                <ProductCard :key="product.id" :product="product"/>
+            </NuxtLink>
         </li>
         <li class="product" 
             v-else
