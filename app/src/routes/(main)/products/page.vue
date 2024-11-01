@@ -110,7 +110,10 @@ for (const product of getProductsData.value || []) {
         const productKeyVal = product[filter.key] 
 
         // Handle different data types
-        if (typeof productKeyVal === "undefined") continue
+        if (
+            typeof productKeyVal === "undefined" || 
+            productKeyVal === null
+        ) continue
 
         else if (Array.isArray(productKeyVal)) {
             for (const val of productKeyVal) filter.options.add(val)
