@@ -58,6 +58,8 @@ try {
         productTable.create(product)
     }
 
+    console.log("Database seeded")
+
 } catch (error) {
     logError(error, import.meta.url)
 }
