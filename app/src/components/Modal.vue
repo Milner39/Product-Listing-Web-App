@@ -65,6 +65,7 @@ const closeModal = () => {
 
 .modal__wrapper[open] {
     position: fixed;
+    z-index: 2;
     top: 0;
     left: 0;
 
