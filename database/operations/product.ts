@@ -28,7 +28,7 @@ const create = async (fieldValues: Insert) => {
 }
 
 
-const read = async (fieldFilters?: { [key in keyof Select]?: unknown } ) => {
+const read = async (fieldFilters?: { [key in keyof Select]?: Select[key] } ) => {
     try {
         const entries = await dbClient.query.product.findMany({
             where: (entry, { and, eq }) => and(
