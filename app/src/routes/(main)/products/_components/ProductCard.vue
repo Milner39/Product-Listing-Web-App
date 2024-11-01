@@ -1,6 +1,8 @@
 <script setup lang="ts">
 // #region Imports
 
+import LazyImage from "~/components/LazyImage.vue"
+
 import type { Product } from "~~/types/product"
 
 // #endregion Imports
@@ -17,7 +19,7 @@ defineProps<{
     <div class="product__image__wrapper" 
         :class="{ skeleton: loading === true }"
     >
-        <img class="product__image":src="product?.thumbnail"/>
+        <LazyImage class="product__image" :imageSrc="product?.thumbnail"/>
     </div>
     <div class="product__details" 
         :class="{ skeleton: loading === true }"
@@ -34,7 +36,7 @@ defineProps<{
     place-content: center;
     aspect-ratio: 1/1;
 
-    > .product__image {
+    &:deep(> img) {
         width: 100%;
     }
 
