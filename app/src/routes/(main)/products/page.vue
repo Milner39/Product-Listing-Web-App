@@ -104,7 +104,7 @@ watch(filterOptionSearch, () => {
 
 
 // Get every unique option for each filter based on the keys of each product
-for (const product of getProductsData.value?.products || []) {
+for (const product of getProductsData.value || []) {
     for (const filter of filters.value) {
         // @ts-ignore: Serialisation type mismatch
         const productKeyVal = product[filter.key] 
@@ -141,7 +141,7 @@ const filteredProducts = computed(() => {
         of the filter options
     */
     // @ts-ignore: Parameter 'product' implicitly has an 'any' type.
-    return getProductsData?.value.products.filter(product =>
+    return getProductsData.value.filter(product =>
 
         // For each filtered key
         filteredKeys.every((key, index) => {
@@ -329,13 +329,13 @@ const sort: Ref<{
     <ul class="grid--cards style-reset"
         v-if="
             getProductsStatus === 'pending' ||
-            getProductsData?.products?.length > 0
+            getProductsData?.length > 0
         "
     >
         <li class="product" 
             v-if="
                 getProductsStatus === 'success' &&
-                getProductsData?.products?.length > 0
+                getProductsData?.length > 0
             " 
             v-for="product in filteredProducts"
         >
