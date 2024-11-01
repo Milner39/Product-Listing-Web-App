@@ -1,7 +1,7 @@
 // #region Imports
 
 import { drizzle } from "drizzle-orm/libsql"
-import { createClient } from "@libsql/client"
+import { createClient } from "@libsql/client/node"
 import { tables } from "./schemas/index.ts"
 
 // #endregion Imports
