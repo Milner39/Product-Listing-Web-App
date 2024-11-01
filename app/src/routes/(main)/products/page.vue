@@ -175,12 +175,14 @@ const filteredProducts = computed(() => {
 
 // Reactive state for sorting products
 const sort: Ref<{
+    selected: number,
     options: {
         title: string,
         key: string
     }[],
     mode: "acc" | "dec"
 }> = ref({
+    selected: 0,
     options: [
         {
             title: "Price",
@@ -197,6 +199,7 @@ const sort: Ref<{
     ],
     mode: "acc"
 })
+
 </script>
 
 <template>
