@@ -12,7 +12,8 @@
 		"app:build": "nuxt build ./app",
 		"app:preview": "nuxt preview ./app",
 		"db:generate": "drizzle-kit generate --config=./database/drizzle.config.ts",
-		"db:migrate": "drizzle-kit migrate --config=./database/drizzle.config.ts"
+		"db:migrate": "drizzle-kit migrate --config=./database/drizzle.config.ts",
+		"db:seed": "node --experimental-strip-types ./database/seed.ts"
 	},
 	"dependencies": {
 		"@libsql/client": "^0.5.6",

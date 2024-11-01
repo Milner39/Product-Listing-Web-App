@@ -34,8 +34,7 @@ export default defineNuxtConfig({
 	// Aliases
 	alias: {
 		"~": fileURLToPath(new URL("./src", appRoot)),
-		"~~": fileURLToPath(projectRoot),
-		"types": fileURLToPath(new URL("./types", appRoot))
+		"~~": fileURLToPath(projectRoot)
 	},
 
 

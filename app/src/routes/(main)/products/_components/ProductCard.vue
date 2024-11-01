@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // #region Imports
 
-import type { Product } from "types/product.d.ts"
+import type { Product } from "~~/types/product"
 
 // #endregion Imports
 

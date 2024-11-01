@@ -2,7 +2,7 @@
 
 import { defineEventHandler, readBody } from "h3" // Nuxt compiler would not auto import
 
-import type { Product } from "types/product.d.ts"
+import type { Product } from "~~/types/product"
 
 // #endregion Imports
 
