@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
 
 
         // Get single product from db using id in query
-        const productsResponse = await productTable.read({ id: requestQueryParams.id })
+        const productsResponse = await productTable.read({ id: productId })
 
         // If db query failed
         if (productsResponse === null) {
